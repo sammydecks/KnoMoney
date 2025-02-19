@@ -6,3 +6,6 @@ def home(request):
 
 def calculator(request):
     return render(request, "calculator.html")
+
+def faq(request):
+    return render(request, "faq.html")
