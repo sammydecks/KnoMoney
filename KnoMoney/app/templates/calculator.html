@@ -1,16 +1,16 @@
 {% extends "base.html" %} 
 {% block title %} 
-Calculate Savings 
+Calculator 
 {% endblock %}
 {% block content %}
-<form id="loanForm">
-    <label for="graduation">Expected Graduation Date:</label>
-    <input type="date" name="graduation" required>
+<form id="loanForm" class="container p-5">
+    <label for="graduation" class="lead form-label">Expected Graduation Date:</label>
+    <input class="form-control mb-4" type="date" name="graduation" required>
 
-    <h3>Loan Portfolio:</h3>
+    <p class="lead">Loan Portfolio:</p>
     <div id="loanContainer">
-        <fieldset class="loanEntry">
-            <legend>Loan 1</legend>
+        <fieldset class="loanEntry border p-2">
+            <legend class="text-center lead">Loan 1</legend>
             <label for="balance">Balance ($): </label>
             <input type="number" name="balance[]" min="0.01" step="0.01" required>
             <label for="interest">Interest Rate (%): </label>
