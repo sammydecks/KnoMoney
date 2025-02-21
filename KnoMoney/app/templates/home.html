@@ -3,8 +3,12 @@
 Welcome to KnoMoney 
 {% endblock %}
 {% block content %}
-<h1>Welcome to KnoMoney</h1>
-<p>Where you can get to know money, before you have no money</p>
-<p>Student loans can be confusing to navigate. We want to make this process as easy as possible while saving you the most money possible.</p>
-<a href="{% url 'calculator' %}">Calculate your savings NOW!</a>
+<div class="container p-5 text-center">
+    <h1>Welcome to KnoMoney</h1>
+    <p class="lead p-2">Where you can get to know money, before you have no money</p>
+    <p>Student loans can be confusing to navigate. We want to make this process as easy as possible while saving you the most money possible.</p>
+</div>
+<div class="p-2 text-center">
+    <a class="btn btn-success btn-lg" href="{% url 'calculator' %}">Calculate your savings NOW!</a>
+</div>
 {% endblock %}
