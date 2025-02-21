@@ -3,23 +3,29 @@
 Calculate Savings 
 {% endblock %}
 {% block content %}
-<form>
+<form id="loanForm">
     <label for="graduation">Expected Graduation Date:</label>
     <input type="date" name="graduation">
-    <fieldset>
-        <legend>Loan 1</legend>
-        <label for="balance">Balance ($): </label>
-        <input type="number" name="balance" min="1">
-        <label for="interest">Interest Rate (%): </label>
-        <input type="number" name="interest" min="1">
-        <label for="type">Loan Type:</label>
-        <select name="type">
-            <option value="" disabled selected>-- Select --</option>
-            <option value="unsubsidized">Unsubsidized</option>
-            <option value="subsidized">Subsidized</option>
-        </select>
-        <label for="received">Date Received:</label>
-        <input type="date" name="received">
-    </fieldset>
+
+    <h3>Loan Portfolio:</h3>
+    <div id="loanContainer">
+        <fieldset class="loanEntry">
+            <legend>Loan 1</legend>
+            <label for="balance">Balance ($): </label>
+            <input type="number" name="balance[]" min="1">
+            <label for="interest">Interest Rate (%): </label>
+            <input type="number" name="interest[]" min="1">
+            <label for="type">Loan Type:</label>
+            <select name="type[]">
+                <option value="" disabled selected>-- Select --</option>
+                <option value="unsubsidized">Unsubsidized</option>
+                <option value="subsidized">Subsidized</option>
+            </select>
+            <label for="received">Date Received:</label>
+            <input type="date" name="received[]">
+        </fieldset>
+    </div>
+    <button type="button" id="addLoan">Add Loan</button>
+    <input type="submit" value="Calculate">
 </form>
 {% endblock %}
