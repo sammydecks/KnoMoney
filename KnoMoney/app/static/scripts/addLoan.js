@@ -6,7 +6,10 @@ document.getElementById("addLoan").addEventListener("click", function () {
     newLoan.classList.add("loanEntry", "border", "p-2", "mb-3");
 
     newLoan.innerHTML = `
-        <legend class="lead text-center">Loan ${loanCount}</legend>
+        <div class="d-flex justify-content-between align-items-center">
+            <legend class="lead text-center">Loan ${loanCount}</legend>
+            <button type="button" class="btn-close" aria-label="Close"></button>
+        </div>
         <div class="row">
             <div class="col">
                 <label class="form-label">Balance ($):</label>
@@ -32,4 +35,9 @@ document.getElementById("addLoan").addEventListener("click", function () {
     `;
 
     loanContainer.appendChild(newLoan);
+
+    // Add event listener to remove the loan entry when "X" is clicked
+    newLoan.querySelector(".btn-close").addEventListener("click", function () {
+        loanContainer.removeChild(newLoan);
+    });
 });
