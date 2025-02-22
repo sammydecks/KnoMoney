@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -34,7 +35,6 @@
       </div>
     </nav>
     <div>{% block content %} {% endblock %}</div>
-    {% load static %}
     <script src="{% static 'scripts/addLoan.js' %}"></script>
   </body>
 </html>

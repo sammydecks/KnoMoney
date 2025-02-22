@@ -3,29 +3,41 @@
 Calculator 
 {% endblock %}
 {% block content %}
-<form id="loanForm" class="container p-5">
+<form id="loanForm" class="container p-5 was-validated">
     <label for="graduation" class="lead form-label">Expected Graduation Date:</label>
     <input class="form-control mb-4" type="date" name="graduation" required>
 
     <p class="lead">Loan Portfolio:</p>
     <div id="loanContainer">
-        <fieldset class="loanEntry border p-2">
+        <fieldset class="loanEntry border p-2 mb-3">
             <legend class="text-center lead">Loan 1</legend>
-            <label for="balance">Balance ($): </label>
-            <input type="number" name="balance[]" min="0.01" step="0.01" required>
-            <label for="interest">Interest Rate (%): </label>
-            <input type="number" name="interest[]" min="0.01" max="99.99" step="0.01" required>
-            <label for="type">Loan Type:</label>
-            <select name="type[]" required>
-                <option value="" disabled selected>-- Select --</option>
-                <option value="unsubsidized">Unsubsidized</option>
-                <option value="subsidized">Subsidized</option>
-            </select>
-            <label for="received">Date Received:</label>
-            <input type="date" name="received[]" required>
+            <div class="row">
+                <div class="col">
+                    <label for="balance" class="form-label">Balance ($): </label>
+                    <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" step="0.01" required>
+                </div>
+                <div class="col">
+                    <label for="interest" class="form-label">Interest Rate (%): </label>
+                    <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" min="0.01" max="99.99" step="0.01" required>
+                </div>
+                <div class="col">
+                    <label for="type" class="form-label">Loan Type:</label>
+                    <select name="type[]" class="form-select" required>
+                        <option value="" disabled selected>-- select --</option>
+                        <option value="unsubsidized">Unsubsidized</option>
+                        <option value="subsidized">Subsidized</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="received" class="form-label">Date Received:</label>
+                    <input type="date" class="form-control" name="received[]" required>
+                </div>
+            </div>
         </fieldset>
     </div>
-    <button type="button" id="addLoan">Add Loan</button>
-    <input type="submit" value="Calculate">
+    <button type="button" class="btn btn-outline-success" id="addLoan">Add Loan</button>
+    <div class="d-flex justify-content-end">
+        <input type="submit" class="btn btn-success btn-lg" value="Calculate">
+    </div>
 </form>
 {% endblock %}
