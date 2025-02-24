@@ -41,3 +41,4 @@ document.getElementById("addLoan").addEventListener("click", function () {
         loanContainer.removeChild(newLoan);
     });
 });
+

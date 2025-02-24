@@ -2,6 +2,8 @@ const driver = window.driver.js.driver;
 
 const driverObj = driver({
     showProgress: true,
+    // prevents interaction with inputs when they are highlighted
+    disableActiveInteraction: true,
     steps: [
         { 
             element: '#graduation', 
@@ -46,8 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Check if we're on the calculator page and if the tour should run
     if (sessionStorage.getItem("startTour") === "true") {
-        sessionStorage.removeItem("startTour"); // Remove the flag so it doesn't run again
         driverObj.drive();
+        sessionStorage.removeItem("startTour"); // Remove the flag so it doesn't run again
     }
 });
 
