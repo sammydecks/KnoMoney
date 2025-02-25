@@ -9,7 +9,7 @@ def calculateInterest(gradDate, loans):
         [loanNum: int,
         principal: float,
         interest: float,
-        subsidized: int (0 or 1),
+        type: enum (subsidized, unsubsidized)
         dateReceived: datetime]
     
     Return:
