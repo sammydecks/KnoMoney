@@ -21,9 +21,9 @@ def calculateInterest(gradDate, loans):
     # iterate through each loan
     for l in range(len(loans)):
         # if the loan is unsubsidized, calculate the interest
-        if loans.loc[l]['subsidized'] == 0:
+        if loans.loc[l]['type'] == "unsubsidized":
             # calculate the number of days that have passed (unsubsidized accrues daily)
-            days = (gradDate - loans.loc[l]['dateReceived']).days
+            days = (gradDate - pd.to_datetime(loans.loc[l]['dateReceived'])).days
             
             # calculate the total interest accrue
             # equation: interest = principle * (interest rate) / 365 * days
@@ -32,6 +32,7 @@ def calculateInterest(gradDate, loans):
             # add the interest to the total interest paid
             totalInt += interest
         
+    totalInt = round(totalInt, 2)
     return totalInt
 
 
@@ -47,7 +48,7 @@ if __name__ == "__main__":
     test1 = pd.DataFrame({'loanNum': [1, 2, 3],
                           'principal': [1000, 2000, 3000],
                           'interest': [int1, int2, int3],
-                          'subsidized': [1, 1, 0],
+                          'type': [1, 1, 0],
                           'dateReceived': [date1, date2, date3]})
 
     print((gradDate-date3).days)
