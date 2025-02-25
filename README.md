@@ -32,6 +32,12 @@ cd project-name
 ```
 pip install -r requirements.txt  # For Django
 ```
+For MacOS:
+1. Create virtual environment: `python3 -m venv venv`
+2. Activate virtual environment: `venv/bin/activate`
+3. Install any dependencies: ex. `pip3 install django`
+4. Exit virtual environment: `deactivate`
+
 
 ## Run the Server
 ```
