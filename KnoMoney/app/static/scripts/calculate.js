@@ -67,7 +67,7 @@ document.getElementById("calculate").addEventListener("click", async function() 
         `;
 
         // Add HTML content to the page
-        resultsContainer.appendChild(results);
+        resultsContainer.replaceChildren(results);
 
         // Scroll to results section
         results.scrollIntoView({behavior: "smooth"});
