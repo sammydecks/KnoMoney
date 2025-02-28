@@ -1,9 +1,11 @@
 {% extends "base.html" %} 
+{% load static %}
 {% block title %} 
 Calculator 
 {% endblock %}
 {% block content %}
 <form id="loanForm" class="container p-5 was-validated">
+    {% csrf_token %}
     <div id="graduation">
         <label for="graduation" class="lead form-label">Expected Graduation Date:</label>
         <input id="graduationDate" class="form-control mb-4" type="date" name="graduation" required>
@@ -47,4 +49,9 @@ Calculator
     <div id="resultContainer">
     </div> 
 </form>
+{% endblock %}
+{% block additional_js %}
+<script src="{% static 'scripts/addLoan.js' %}"></script>
+<script src="{% static 'scripts/validInputs.js' %}"></script>
+<script src="{% static 'scripts/calculate.js' %}"></script>
 {% endblock %}
