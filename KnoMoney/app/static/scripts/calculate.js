@@ -6,8 +6,15 @@ This file calculates the loan and returns the total saved interest amount
 
 // import * as namespace from "../calculation.py";
 
+// Function to get CSRF token from cookies
+function getCSRFToken() {
+    return document.cookie.split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+}
 
-document.getElementById("calculate").addEventListener("click", async function() {
+document.getElementById("loanForm").addEventListener("submit", async function(event) {
+    event.preventDefault();  // Prevent default form submission
     const resultsContainer = document.getElementById("resultContainer");
 
     // save graduation date from input field
@@ -35,11 +42,16 @@ document.getElementById("calculate").addEventListener("click", async function() 
     
     //Call Python function with API request
     try {
+        // Fetch CSRF token and include in request
+        const csrfToken = getCSRFToken();
         // frontend calls server endpoint with url calculate_interest
         const response = await fetch("/calculate_interest", {
             //HTTP request settings to send data to the backend as JSON
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+            },
             body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
         });
 

@@ -3,11 +3,8 @@ from django.http import JsonResponse
 import pandas as pd
 import json
 from .calculation import calculateInterest
+from django.views.decorators.csrf import csrf_protect
 
-# THIS IS DISABLING CSRF PROTECTION
-# BAD FOR PRODUCTION
-# ONLY USE FOR DEVELOPMENT  
-from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def home(request):
@@ -19,7 +16,7 @@ def calculator(request):
 def faq(request):
     return render(request, "faq.html")
 
-@csrf_exempt
+@csrf_protect
 def calculate_interest(request):
     if request.method == "POST":
         try:
