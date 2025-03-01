@@ -47,7 +47,7 @@ def calculateResults(gradDate, loans):
     payment = 25
     whatIfResults = calculateWhatIf(gradDate, loans, payment)
     results.update({ "savedGracePeriod": whatIfResults["savedGracePeriod"], "savedAllYears": whatIfResults["savedAllYears"] })
-    
+
     return results
 
 
@@ -154,7 +154,7 @@ def calculateTotalSaved(gradDate, loans, years):
             else:
                 monthPayments = newPrincipal / n
             # calculate the total amount paid over x years
-            totalPaid = monthPayments * years
+            totalPaid = monthPayments * n
             # calculate total amount that could have been save on the single unsubsidized loan and add to totalSave
             totalSaved += totalPaid-currLoan['principal']
 
