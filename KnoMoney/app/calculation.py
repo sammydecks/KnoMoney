@@ -38,6 +38,16 @@ def calculateResults(gradDate, loans):
     years = 10 
     results["totalSaved"] = calculateTotalSaved(gradDate, loans, years)
 
+
+    # calculate monthly payments for recommendation
+    results["monthlyPay"] = calculateMonthlyPay(gradDate, loans)
+
+    # calculate whatIf calculations
+    # the "Calculate" button will populate with $25/month as the what if recommendation
+    payment = 25
+    whatIfResults = calculateWhatIf(gradDate, loans, payment)
+    results.update({ "savedGracePeriod": whatIfResults["savedGracePeriod"], "savedAllYears": whatIfResults["savedAllYears"] })
+    
     return results
 
 
@@ -149,6 +159,20 @@ def calculateTotalSaved(gradDate, loans, years):
             totalSaved += totalPaid-currLoan['principal']
 
     return totalSaved
+
+
+def calculateMonthlyPay(gradDate, loans):
+    
+    return 0
+
+
+def calculateWhatIf(gradDate, loans, payment):
+
+    whatIfResults = {
+        "savedGracePeriod": 0,
+        "savedAllYears": 0
+    }
+    return whatIfResults
 
 
 # main method
