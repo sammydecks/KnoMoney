@@ -47,6 +47,15 @@ Calculator
         <input id="calculate" type="submit" class="btn btn-success btn-lg" value="Calculate">  
     </div>
     <div id="resultContainer">
+        <fieldset class="container">
+            <div class="border border-dark p-3 mt-3 text-center d-none">
+                <h2 class="mb-3">RESULTS</h2>
+                <p class="fw-bold">Total Accrued Interest by End of Grace Period:</p>
+                <p id="totalInterest" class="mb-2"></p>
+                <p class="fw-bold">Potential Savings (Over 10 Years):</p>
+                <p id="potentialSavings"></p>
+            </div>
+        </fieldset>
     </div> 
 </form>
 {% endblock %}
