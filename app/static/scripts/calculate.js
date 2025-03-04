@@ -69,11 +69,14 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
         let totalInterestField = document.getElementById("totalInterest");
         totalInterestField.innerHTML = totalInterest;
 
-        // Make results container visible
-        document.querySelector("#resultContainer .d-none").classList.remove("d-none");
+        // Make results and recommendations containers visible
+        document.querySelector("#resultContainer .d-none")?.classList.remove("d-none");
+        document.querySelector("#recommendationsContainer .d-none")?.classList.remove("d-none");
 
-        // Scroll to results section
-        resultsContainer.scrollIntoView({behavior: "smooth"});
+        // Scroll to the results section every time
+        setTimeout(() => {
+            resultsContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
 
     }
     catch (error) {
