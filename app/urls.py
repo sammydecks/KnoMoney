@@ -4,6 +4,9 @@ from .views import calculate_interest
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("campus/", views.home, name="home"),
+    path("music/", views.home, name="home"),
+    path("online/", views.home, name="home"),
     path("calculate/", views.calculator, name="calculator"),
     path("faqs/", views.faq, name="faq"),
 
