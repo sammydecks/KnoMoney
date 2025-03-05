@@ -65,24 +65,18 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
         //extracts value in totalInterest key
         const totalInterest = data.totalInterest;
 
-        // Add the results underneath on the same page
-        const results = document.createElement("fieldset");
-        // results.innerText = "RESULTS";
-        results.innerHTML = `
-            <div class="border border-dark p-3 mt-3 text-center">
-                <h2 class="mb-3">RESULTS</h2>
-                <p class="fw-bold">Total Accrued Interest by Graduation Date:</p>
-                <p class="mb-2">${totalInterest}</p>
-                <p class="fw-bold">Potential Savings (Over 10 Years):</p>
-                <p>In Da Works</p>
-            </div>
-        `;
+        // Location to fill in totalInterest value
+        let totalInterestField = document.getElementById("totalInterest");
+        totalInterestField.innerHTML = totalInterest;
 
-        // Add HTML content to the page
-        resultsContainer.appendChild(results);
+        // Make results and recommendations containers visible
+        document.querySelector("#resultContainer .d-none")?.classList.remove("d-none");
+        document.querySelector("#recommendationsContainer .d-none")?.classList.remove("d-none");
 
-        // Scroll to results section
-        results.scrollIntoView({behavior: "smooth"});
+        // Scroll to the results section every time
+        setTimeout(() => {
+            resultsContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
 
     }
     catch (error) {
