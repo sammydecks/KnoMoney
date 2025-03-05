@@ -50,6 +50,7 @@ def calculateResults(gradDate, loans):
     whatIfResults = calculateWhatIf(gradDate, loans, payment)
     results.update({ "savedGracePeriod": whatIfResults["savedGracePeriod"], "savedAllYears": whatIfResults["savedAllYears"] })
 
+    print(results)
     return results
 
 
@@ -162,7 +163,7 @@ def calculateTotalSaved(gradDate, loans, years=10):
             # calculate the total amount paid over x years
             totalPaid = monthPayments * n
             # calculate total amount that could have been save on the single unsubsidized loan and add to totalSave
-            totalSaved += totalPaid - (currLoan['monthlyPay'] * n) #totalSaved = total paid (if interest NOT paid)  - total paid (if interest paid)
+            totalSaved += totalPaid - (loans.loc[l]['monthlyPay'] * n) #totalSaved = total paid (if interest NOT paid)  - total paid (if interest paid)
 
     totalSaved = round(float(totalSaved), 2) #cast to float and round to 2 decimal places
     return totalSaved
@@ -255,9 +256,16 @@ def calculateWhatIf(gradDate, loans, payment):
         "savedGracePeriod": 0,
         "savedAllYears": 0
     }
+    # add new column initialized to 0
+    loans['balance'] = 0
 
+    n = math.floor((gradDate - pd.to_datetime(date.today())).days / 30) + 6 #number of monthly payments from today till end of grace period 
+
+    # calculate savedGracePeriod
+    whatIfResults['savedGracePeriod'] = payment * n
+
+    # calculate total saved all years
     if payment < totalMonthlyIntPay:
-        n = math.floor((gradDate - pd.to_datetime(date.today())).days / 30) + 6 #number of monthly payments from today till end of grace period 
 
         # remaining amount that is not paid off by end of grace period
         unpaidInterest = (totalMonthlyIntPay - payment) * n
@@ -271,22 +279,32 @@ def calculateWhatIf(gradDate, loans, payment):
                 # calculate monthly interest accrued for given loan 
                 currMonthlyInt = currLoan['principal'] * (currLoan['interest'])/365 * 30
                 # calculate proportion of unpaidInterest that will be added to original principal to create new balance
-                loans.loc[l]['balance'] = (currMonthlyInt/totalMonthlyIntPay) * unpaidInterest + currLoan['principal']
+                currLoan['balance'] = (currMonthlyInt/totalMonthlyIntPay) * unpaidInterest + currLoan['principal']
             elif currLoan['type'] == "subsidized":
-                loans.loc[l]['balance'] = currLoan['principal']
+                currLoan['balance'] = currLoan['principal']
 
         # after calculating the new balance for every loan, calculate total saved over 10 years
         whatIfResults['savedAllYears'] = calculateTotalSaved(gradDate, loans)
     
     elif payment > totalMonthlyIntPay:
+        # calculate extra payment that can go towards paying principal
+        extraPayment = payment - totalMonthlyIntPay
+        # initialize new row of balance = principal
+        loans['balance'] = loans['principal']
+
+        # calculate total loan principal for unsubsidized loans (this will help with proportions later)
+        unsubsidizedLoans = loans[loans['type'] == 'unsubsidized']
+        totalUnsubsidizedPrincipal = unsubsidizedLoans['principal'].sum()
+
+        # iterate through n payments, recalculating extra payment and reducing 
+
         # TODO: implement this
-        whatIfResults['savedAllYears'] = 0
+        whatIfResults['savedAllYears'] = -1
     
     # else payment = monthlyPay -> this means that the balance that monthly pay is calculated off on = original principal
     else: 
         loans['balance'] = loans['principal']
         whatIfResults['savedAllYears'] = calculateTotalSaved(gradDate, loans)
-    
     
     return whatIfResults
 
@@ -322,6 +340,9 @@ def calculateIndMonthlyPay(loans, years):
     - Calculate the monthly payment and add as a new column in df
     '''
 
+    # add new column initialized to 0
+    loans['monthlyPay'] = 0
+
     for l in range(len(loans)):
         # current loan
         currLoan = loans.loc[l]
@@ -340,7 +361,7 @@ def calculateIndMonthlyPay(loans, years):
             monthPayments = currLoan['balance'] / n
         
         # set monthlyPay value for given row
-        loans.loc(l)['monthlyPay'] = monthPayments
+        loans.loc[l]['monthlyPay'] = round(float(monthPayments), 2)
     
     return loans
 

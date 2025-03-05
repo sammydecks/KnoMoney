@@ -33,7 +33,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
         loans.push({
             loanNum: index + 1,
             principal: parseFloat(balance),
-            interest: parseFloat(interest),
+            interest: parseFloat(interest) / 100,
             type: type,
             dateReceived: received
         })
@@ -64,10 +64,22 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
 
         //extracts value in totalInterest key
         const totalInterest = data.totalInterest;
+        const totalSaved = data.totalSaved;
+        const monthlyPay = data.monthlyPay;
+        const savedGracePeriod = data.savedGracePeriod;
+        const savedAllYears = data.savedAllYears;
 
         // Location to fill in totalInterest value
         let totalInterestField = document.getElementById("totalInterest");
         totalInterestField.innerHTML = totalInterest;
+        let totalSavedField = document.getElementById("potentialSavings");
+        totalSavedField.innerHTML = totalSaved;
+        let monthlyPayField = document.getElementById("monthlyPayment");
+        monthlyPayField.innerHTML = monthlyPay;
+        let savedGracePeriodField = document.getElementById("whatIfPaid");
+        savedGracePeriodField.innerHTML = savedGracePeriod;
+        let savedAllYearsField = document.getElementById("whatIfSaved");
+        savedAllYearsField.innerHTML = savedAllYears;
 
         // Make results and recommendations containers visible
         document.querySelector("#resultContainer .d-none")?.classList.remove("d-none");

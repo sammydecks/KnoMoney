@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import pandas as pd
 import json
-from .calculation import calculateInterest
+from .calculation import calculateResults
 from django.views.decorators.csrf import csrf_protect
 
 
@@ -23,8 +23,14 @@ def calculate_interest(request):
             data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
             gradDate = pd.to_datetime(data["gradDate"])
             loans_df = pd.DataFrame(data["loans"])  # Convert JSON to pandas DataFrame
-            total_interest = calculateInterest(gradDate, loans_df)  # Call your function
-            return JsonResponse({"totalInterest": total_interest})
+
+            # call initial function of calculating results
+            results = calculateResults(gradDate, loans_df)
+            return JsonResponse({"totalInterest": results['totalInterest'],
+                                 "totalSaved": results['totalSaved'],
+                                 "monthlyPay": results['monthlyPay'],
+                                 "savedGracePeriod": results['savedGracePeriod'],
+                                 "savedAllYears": results['savedAllYears']})
 
         except Exception as err:
             return JsonResponse({"Error:", err}, status=500)
