@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='SammyMimiTJ2025')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ["knomoney.com", "www.knomoney.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["knomoney.com", "www.knomoney.com","127.0.0.1"]
 
 # SECURE_SSL_REDIRECT = True  # Redirects all HTTP requests to HTTPS
 # SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
