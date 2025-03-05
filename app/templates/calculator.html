@@ -1,0 +1,82 @@
+{% extends "base.html" %} 
+{% load static %}
+{% block title %} 
+Calculator 
+{% endblock %}
+{% block content %}
+<form id="loanForm" class="container p-5 was-validated">
+    {% csrf_token %}
+    <div id="graduation">
+        <label for="graduation" class="lead form-label">Expected Graduation Date:</label>
+        <input id="graduationDate" class="form-control mb-4" type="date" name="graduation" required>
+    </div>
+
+    <p class="lead">Loan Portfolio:</p>
+    <div id="loanContainer">
+        <fieldset class="loanEntry border p-2 mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <legend class="lead m-0 text-center">Loan 1</legend>
+                <button type="button" class="btn-close" style="visibility: hidden;" ></button>
+            </div>
+            <div class="row">
+                <div id="balance" class="col">
+                    <label for="balance" class="form-label">Balance ($): </label>
+                    <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" step="0.01" required>
+                </div>
+                <div id="interest" class="col">
+                    <label for="interest" class="form-label">Interest Rate (%): </label>
+                    <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" min="0.01" max="99.99" step="0.01" required>
+                </div>
+                <div id="type" class="col">
+                    <label for="type" class="form-label">Loan Type:</label>
+                    <select name="type[]" class="form-select" required>
+                        <option value="" disabled selected>-- select --</option>
+                        <option value="unsubsidized">Unsubsidized</option>
+                        <option value="subsidized">Subsidized</option>
+                    </select>
+                </div>
+                <div id="received" class="col">
+                    <label for="received" class="form-label">Date Received:</label>
+                    <input type="date" class="form-control" name="received[]" required>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <button type="button" class="btn btn-outline-success" id="addLoan">Add Loan</button>
+    <div class="d-flex justify-content-end">
+        <input id="calculate" type="submit" class="btn btn-success btn-lg" value="Calculate">  
+    </div>
+</form>
+<div id="resultContainer">
+    <fieldset class="container">
+        <div class="border border-dark p-3 mt-3 text-center d-none">
+            <h2 class="mb-3">RESULTS</h2>
+            <p class="fw-bold">Total Accrued Interest by End of Grace Period:</p>
+            <p id="totalInterest" class="mb-2"></p>
+            <p class="fw-bold">Potential Savings (Over 10 Years):</p>
+            <p id="potentialSavings"></p>
+        </div>
+    </fieldset>
+</div> 
+<div id="recommendationsContainer" class="mb-5">
+    <fieldset class="container">
+        <div class="border border-dark p-3 mt-3 text-center d-none">
+            <h2 class="mb-3">RECOMMENDATIONS</h2>
+            <p class="fw-bold">Monthly Payment to pay off accrued interest:</p>
+            <p id="monthlyPayment" class="mb-2"></p>
+            <p class="fw-bold">What if I pay $
+                <input type="number" id="customPayment" class="form-control d-inline text-center" name="whatIf" value="25.00" min="1" step="0.01" style="width: 100px"> per month?
+            </p>
+            <p class="fw-bold">You will have paid $
+                <span id="whatIfPaid" class="d-inline"></span> by the end of your grace period and save $
+                <span id="whatIfSaved" class="d-inline"></span> over 10 years
+            </p>
+        </div>
+    </fieldset>
+</div> 
+{% endblock %}
+{% block additional_js %}
+<script src="{% static 'scripts/addLoan.js' %}"></script>
+<script src="{% static 'scripts/validInputs.js' %}"></script>
+<script src="{% static 'scripts/calculate.js' %}"></script>
+{% endblock %}
