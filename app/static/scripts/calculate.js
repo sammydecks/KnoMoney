@@ -86,9 +86,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
         document.querySelector("#recommendationsContainer .d-none")?.classList.remove("d-none");
 
         // Scroll to the results section every time
-        setTimeout(() => {
-            resultsContainer.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100);
+        resultsContainer.scrollIntoView({ behavior: "smooth", block: "start" });
 
     }
     catch (error) {

@@ -2,8 +2,6 @@ const driver = window.driver.js.driver;
 
 const driverObj = driver({
     showProgress: true,
-    // prevents interaction with inputs when they are highlighted
-    disableActiveInteraction: true,
     steps: [
         { 
             element: '#graduation', 
@@ -27,11 +25,13 @@ const driverObj = driver({
         },
         { 
             element: '#addLoan', 
-            popover: { title: 'Add Loans', description: 'Add any additional student loans to accurately calculate total interest.' } 
+            popover: { title: 'Add Loans', description: 'Add any additional student loans to accurately calculate total interest.' }, 
+            disableActiveInteraction: true,
         },
         { 
             element: '#calculate', 
-            popover: { title: 'Calculate!', description: 'Click Calculate when you finish adding your loans!' } 
+            popover: { title: 'Calculate!', description: 'Click Calculate when you finish adding your loans!' },
+            disableActiveInteraction: true, 
         }
     ]
   });
