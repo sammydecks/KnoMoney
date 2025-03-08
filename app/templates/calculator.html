@@ -44,7 +44,7 @@ Calculator
     </div>
     <button type="button" class="btn btn-outline-success" id="addLoan">Add Loan</button>
     <div class="d-flex justify-content-end">
-        <button id="tourRestart" type="button" class="btn btn-outline-success m-2">Calculator Tutorial</button>
+        <button id="tourRestart" type="button" class="btn btn-outline-success m-2">Input Guide</button>
         <input id="calculate" type="submit" class="btn btn-success btn-lg" value="Calculate">  
     </div>
 </form>
@@ -75,6 +75,12 @@ Calculator
         </div>
     </fieldset>
 </div> 
+<div class="text-center">
+    <div class="container alert alert-info d-inline-block m-2 text-center" role="alert">
+        <strong>Privacy Notice:</strong> The loan information you enter into this calculator is 
+        <strong>not stored, saved, or shared</strong> in any way.
+    </div>
+</div>
 {% endblock %}
 {% block additional_js %}
 <script src="{% static 'scripts/addLoan.js' %}"></script>
