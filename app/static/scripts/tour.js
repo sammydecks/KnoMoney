@@ -36,20 +36,25 @@ const driverObj = driver({
     ]
   });
   
-document.addEventListener("DOMContentLoaded", () => {
-    const btnTour = document.querySelector("#tour");
-
-    if (btnTour) {
-        btnTour.addEventListener("click", () => {
-            // Set a start tour flag before navigating to calculator page
+  document.addEventListener("DOMContentLoaded", () => {
+    const btnRedirect = document.querySelector("#tourRedirect");
+    if (btnRedirect) {
+        btnRedirect.addEventListener("click", () => {
             sessionStorage.setItem("startTour", "true");
         });
     }
 
-    // Check if we're on the calculator page and if the tour should run
+    const btnRestart = document.querySelector("#tourRestart");
+    if (btnRestart) {
+        btnRestart.addEventListener("click", () => {
+            driverObj.drive(); // Restart tutorial manually
+        });
+    }
+
+    // If sessionStorage flag is set, start tour on calculator page
     if (sessionStorage.getItem("startTour") === "true") {
         driverObj.drive();
-        sessionStorage.removeItem("startTour"); // Remove the flag so it doesn't run again
+        sessionStorage.removeItem("startTour"); // Prevent running again on refresh
     }
 });
 

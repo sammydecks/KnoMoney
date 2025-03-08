@@ -21,7 +21,7 @@ Calculator
             <div class="row">
                 <div id="balance" class="col">
                     <label for="balance" class="form-label">Balance ($): </label>
-                    <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" step="0.01" required>
+                    <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" required>
                 </div>
                 <div id="interest" class="col">
                     <label for="interest" class="form-label">Interest Rate (%): </label>
@@ -44,6 +44,7 @@ Calculator
     </div>
     <button type="button" class="btn btn-outline-success" id="addLoan">Add Loan</button>
     <div class="d-flex justify-content-end">
+        <button id="tourRestart" type="button" class="btn btn-outline-success m-2">Calculator Tutorial</button>
         <input id="calculate" type="submit" class="btn btn-success btn-lg" value="Calculate">  
     </div>
 </form>

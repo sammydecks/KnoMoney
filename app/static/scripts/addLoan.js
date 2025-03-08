@@ -13,7 +13,7 @@ document.getElementById("addLoan").addEventListener("click", function () {
         <div class="row">
             <div class="col">
                 <label class="form-label">Balance ($):</label>
-                <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" step="0.01" required>
+                <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" required>
             </div>
             <div class="col">
                 <label class="form-label">Interest Rate (%):</label>
