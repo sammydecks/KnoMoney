@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import pandas as pd
 import json
-from .calculation import calculateResults
+from .calculation import calculateResults, calculateWhatIf
 from django.views.decorators.csrf import csrf_protect
 
 
@@ -34,3 +34,23 @@ def calculate_interest(request):
 
         except Exception as err:
             return JsonResponse({"Error:", err}, status=500)
+        
+
+@csrf_protect
+def calculate_whatif(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
+            gradDate = pd.to_datetime(data["gradDate"])
+            loans_df = pd.DataFrame(data["loans"])  # Convert JSON to pandas DataFrame
+            payment = float(data["customPayment"])
+
+            # call initial function of calculating results
+            results = calculateWhatIf(gradDate, loans_df, payment)
+            return JsonResponse({"savedGracePeriod": results['savedGracePeriod'],
+                                 "savedAllYears": results['savedAllYears'],
+                                 "isLargerPayment": results['isLargerPayment']})
+
+        except Exception as err:
+            return JsonResponse({"Error:", err}, status=500)
+        

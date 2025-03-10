@@ -222,7 +222,7 @@ def calculateWhatIf(gradDate, loans, payment):
     whatIfResults (pd df):
         [savedGracePeriod: float,
         savedAllYears: float,
-        largerPayment: boolean]    
+        isisLargerPayment: boolean]    
     '''
 
     '''
@@ -256,7 +256,7 @@ def calculateWhatIf(gradDate, loans, payment):
     whatIfResults = {
         "savedGracePeriod": 0,
         "savedAllYears": 0,
-        "largerPayment": False
+        "isisLargerPayment": False
     }
     # add new column initialized to 0
     loans['balance'] = 0
@@ -287,7 +287,7 @@ def calculateWhatIf(gradDate, loans, payment):
     
     elif payment > totalMonthlyIntPay:
         # turn on boolean to notify user!
-        whatIfResults['largerPayment'] = True
+        whatIfResults['isLargerPayment'] = True
 
         # calculate extra payment that can go towards paying principal
         extraPayment = payment - totalMonthlyIntPay
