@@ -94,7 +94,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
 });
 
 // connection to recommendations button
-document.getElementById("whatIf").addEventListener("click", async function(event) {
+document.getElementById("whatIfForm").addEventListener("submit", async function(event) {
     event.preventDefault();  // Prevent default form submission
 
     // save custom payment selected by the user
