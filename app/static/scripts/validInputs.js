@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const graduationDateInput = document.getElementById("graduationDate");
     const form = document.getElementById("loanForm");
 
+    let today = new Date().toISOString().split("T")[0]; 
+    graduationDateInput.setAttribute("min", today); // only today or future grad dates
+
     function validateLoanDates() {
         const graduationDate = new Date(graduationDateInput.value);
         const loanDateInputs = document.querySelectorAll('input[name="received[]"]');
