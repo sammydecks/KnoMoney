@@ -33,7 +33,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
         loans.push({
             loanNum: index + 1,
             principal: parseFloat(balance),
-            interest: parseFloat(interest) / 100,
+            interest: parseFloat(interest),
             type: type,
             dateReceived: received
         })
@@ -94,11 +94,11 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
 });
 
 // connection to recommendations button
-document.getElementById("loanForm").addEventListener("whatIf", async function(event) {
+document.getElementById("whatIf").addEventListener("click", async function(event) {
     event.preventDefault();  // Prevent default form submission
 
     // save custom payment selected by the user
-    const customPayment = document.getElementById("customPayment");
+    const customPayment = document.getElementById("customPayment").value;
 
     const resultsContainer = document.getElementById("resultContainer");
 
@@ -118,7 +118,7 @@ document.getElementById("loanForm").addEventListener("whatIf", async function(ev
         loans.push({
             loanNum: index + 1,
             principal: parseFloat(balance),
-            interest: parseFloat(interest) / 100,
+            interest: parseFloat(interest),
             type: type,
             dateReceived: received
         })
@@ -146,16 +146,16 @@ document.getElementById("loanForm").addEventListener("whatIf", async function(ev
         // parses response body as JSON
         const data = await response.json();
 
-        //extracts value in totalInterest key
+        //extracts value in returned dictionary
         const savedGracePeriod = data.savedGracePeriod;
         const savedAllYears = data.savedAllYears;
         const isLargerPayment = data.isLargerPayment;
 
-        // Location to fill in totalInterest value
+        // Location to fill in what if value
         let savedGracePeriodField = document.getElementById("whatIfPaid");
-        savedGracePeriodField.innerHTML = savedGracePeriod;
+        savedGracePeriodField.textContent = savedGracePeriod;
         let savedAllYearsField = document.getElementById("whatIfSaved");
-        savedAllYearsField.innerHTML = savedAllYears;
+        savedAllYearsField.textContent = savedAllYears;
 
         // if isLargerPayment is true -> create another message popup with a disclaimer
 

@@ -33,7 +33,7 @@ def calculate_interest(request):
                                  "savedAllYears": results['savedAllYears']})
 
         except Exception as err:
-            return JsonResponse({"Error:", err}, status=500)
+            return JsonResponse({"Error:", err}, safe=False, status=500)
         
 
 @csrf_protect
@@ -49,8 +49,8 @@ def calculate_whatif(request):
             results = calculateWhatIf(gradDate, loans_df, payment)
             return JsonResponse({"savedGracePeriod": results['savedGracePeriod'],
                                  "savedAllYears": results['savedAllYears'],
-                                 "isLargerPayment": results['isLargerPayment']})
+                                 "isLargerPayment": results.get('isLargerPayment', False)})
 
         except Exception as err:
-            return JsonResponse({"Error:", err}, status=500)
+            return JsonResponse({"Error:", err}, safe=False, status=500)
         
