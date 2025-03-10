@@ -2,8 +2,6 @@ const driver = window.driver.js.driver;
 
 const driverObj = driver({
     showProgress: true,
-    // prevents interaction with inputs when they are highlighted
-    disableActiveInteraction: true,
     steps: [
         { 
             element: '#graduation', 
@@ -27,29 +25,36 @@ const driverObj = driver({
         },
         { 
             element: '#addLoan', 
-            popover: { title: 'Add Loans', description: 'Add any additional student loans to accurately calculate total interest.' } 
+            popover: { title: 'Add Loans', description: 'Add any additional student loans to accurately calculate total interest.' }, 
+            disableActiveInteraction: true,
         },
         { 
             element: '#calculate', 
-            popover: { title: 'Calculate!', description: 'Click Calculate when you finish adding your loans!' } 
+            popover: { title: 'Calculate!', description: 'Click Calculate when you finish adding your loans!' },
+            disableActiveInteraction: true, 
         }
     ]
   });
   
-document.addEventListener("DOMContentLoaded", () => {
-    const btnTour = document.querySelector("#tour");
-
-    if (btnTour) {
-        btnTour.addEventListener("click", () => {
-            // Set a start tour flag before navigating to calculator page
+  document.addEventListener("DOMContentLoaded", () => {
+    const btnRedirect = document.querySelector("#tourRedirect");
+    if (btnRedirect) {
+        btnRedirect.addEventListener("click", () => {
             sessionStorage.setItem("startTour", "true");
         });
     }
 
-    // Check if we're on the calculator page and if the tour should run
+    const btnRestart = document.querySelector("#tourRestart");
+    if (btnRestart) {
+        btnRestart.addEventListener("click", () => {
+            driverObj.drive(); // Restart tutorial manually
+        });
+    }
+
+    // If sessionStorage flag is set, start tour on calculator page
     if (sessionStorage.getItem("startTour") === "true") {
         driverObj.drive();
-        sessionStorage.removeItem("startTour"); // Remove the flag so it doesn't run again
+        sessionStorage.removeItem("startTour"); // Prevent running again on refresh
     }
 });
 
