@@ -221,7 +221,8 @@ def calculateWhatIf(gradDate, loans, payment):
     ------
     whatIfResults (pd df):
         [savedGracePeriod: float,
-        savedAllYears: float]    
+        savedAllYears: float,
+        largerPayment: boolean]    
     '''
 
     '''
@@ -254,7 +255,8 @@ def calculateWhatIf(gradDate, loans, payment):
     # initialize df to return
     whatIfResults = {
         "savedGracePeriod": 0,
-        "savedAllYears": 0
+        "savedAllYears": 0,
+        "largerPayment": False
     }
     # add new column initialized to 0
     loans['balance'] = 0
@@ -282,11 +284,11 @@ def calculateWhatIf(gradDate, loans, payment):
                 currLoan['balance'] = (currMonthlyInt/totalMonthlyIntPay) * unpaidInterest + currLoan['principal']
             elif currLoan['type'] == "subsidized":
                 currLoan['balance'] = currLoan['principal']
-
-        # after calculating the new balance for every loan, calculate total saved over 10 years
-        whatIfResults['savedAllYears'] = calculateTotalSaved(gradDate, loans)
     
     elif payment > totalMonthlyIntPay:
+        # turn on boolean to notify user!
+        whatIfResults['largerPayment'] = True
+
         # calculate extra payment that can go towards paying principal
         extraPayment = payment - totalMonthlyIntPay
         # initialize new row of balance = principal
@@ -297,15 +299,25 @@ def calculateWhatIf(gradDate, loans, payment):
         totalUnsubsidizedPrincipal = unsubsidizedLoans['principal'].sum()
 
         # iterate through n payments, recalculating extra payment and reducing 
+        for i in range(n):
+            # loop through all loans
+            for l in range(len(loans)):
+                if loans.loc[l]['type'] == "unsubsidized":
+                    # calculate the proportion of unsubsidized loan amount
+                    prop = loans.loc[l]['principal'] / totalUnsubsidizedPrincipal
 
-        # TODO: implement this
-        whatIfResults['savedAllYears'] = -1
-    
+                    # use proportion to subtract portion of extra payment from unsubidized balance (ASSUMPTION: assuming that balance will not hit a negative number - respectfully I'm not sure how to do the math for that)
+                    loans.loc[l]['balance'] -= prop * extraPayment
+                    if (loans.loc[l]['balance'] < 0):
+                        loans.loc[l]['balance'] = 0
     # else payment = monthlyPay -> this means that the balance that monthly pay is calculated off on = original principal
     else: 
         loans['balance'] = loans['principal']
-        whatIfResults['savedAllYears'] = calculateTotalSaved(gradDate, loans)
-    
+
+
+    # after calculating the new balance for every loan, calculate total saved over 10 years
+    whatIfResults['savedAllYears'] = calculateTotalSaved(gradDate, loans)
+
     return whatIfResults
 
 def calculateIndMonthlyPay(loans, years):
