@@ -82,7 +82,7 @@ def calculateInterest(gradDate, loans):
             
             # calculate the total interest accrue
             # equation: interest = principle * (interest rate) / 365 * days
-            interest = loans.loc[l]['principal'] * (loans.loc[l]['interest'])/365 * days
+            interest = loans.loc[l]['principal'] * (loans.loc[l]['interest']/100)/365 * days
         
             # add the interest to the total interest paid
             totalInt += interest
@@ -127,7 +127,7 @@ def calculateTotalSaved(gradDate, loans, years=10):
     - This is summed across all unsubsidized loans
     '''
 
-    loans = calculateIndMonthlyPay(loans, years) #creates a new row in loans (monthlyPay: float) that will be used in the calculation below to see total saved
+    loans = calculateIndMonthlyPay(loans, years) #creates a new col in loans (monthlyPay: float) that will be used in the calculation below to see total saved
 
     totalSaved = 0
     # iterate through each loan
@@ -142,7 +142,7 @@ def calculateTotalSaved(gradDate, loans, years=10):
             
             # calculate the total interest accrue
             # equation: interest = principle * (interest rate) / 365 * days
-            interest = currLoan['principal'] * (currLoan['interest'])/365 * days
+            interest = currLoan['principal'] * (currLoan['interest']/100)/365 * days
         
             # calculate new principal (if previous interest is accrued)
             # add the interest to the total interest paid
@@ -189,9 +189,8 @@ def calculateMonthlyIntPay(gradDate, loans):
     '''
     The logic: 
     - The total interest accrued is calculated
-    - The current date from today until graduation is calculate
+    - The current date from today until end of grace period is calculated
     - ASSUMING that no simple accrued payment has been paid off, the total interest is divided by remaining months (rounded down) to calculate monthly pay
-    - NOTE: the remaining months does include the grace period
     '''
 
     # calculate total interest from receiving loans to graduation
@@ -221,7 +220,8 @@ def calculateWhatIf(gradDate, loans, payment):
     ------
     whatIfResults (pd df):
         [savedGracePeriod: float,
-        savedAllYears: float]    
+        savedAllYears: float,
+        isisLargerPayment: boolean]    
     '''
 
     '''
@@ -254,15 +254,16 @@ def calculateWhatIf(gradDate, loans, payment):
     # initialize df to return
     whatIfResults = {
         "savedGracePeriod": 0,
-        "savedAllYears": 0
+        "savedAllYears": 0,
+        "isisLargerPayment": False
     }
+    if (payment == 0):
+        return whatIfResults
+
     # add new column initialized to 0
-    loans['balance'] = 0
+    loans['balance'] = float(0)
 
     n = math.floor((gradDate - pd.to_datetime(date.today())).days / 30) + 6 #number of monthly payments from today till end of grace period 
-
-    # calculate savedGracePeriod
-    whatIfResults['savedGracePeriod'] = payment * n
 
     # calculate total saved all years
     if payment < totalMonthlyIntPay:
@@ -277,16 +278,16 @@ def calculateWhatIf(gradDate, loans, payment):
 
             if currLoan['type'] == "unsubsidized":
                 # calculate monthly interest accrued for given loan 
-                currMonthlyInt = currLoan['principal'] * (currLoan['interest'])/365 * 30
+                currMonthlyInt = currLoan['principal'] * (currLoan['interest']/100)/365 * 30
                 # calculate proportion of unpaidInterest that will be added to original principal to create new balance
-                currLoan['balance'] = (currMonthlyInt/totalMonthlyIntPay) * unpaidInterest + currLoan['principal']
+                loans.at[l,'balance'] = (currMonthlyInt/totalMonthlyIntPay) * unpaidInterest + currLoan['principal']
             elif currLoan['type'] == "subsidized":
-                currLoan['balance'] = currLoan['principal']
-
-        # after calculating the new balance for every loan, calculate total saved over 10 years
-        whatIfResults['savedAllYears'] = calculateTotalSaved(gradDate, loans)
+                loans.at[l, 'balance'] = currLoan['principal']
     
     elif payment > totalMonthlyIntPay:
+        # turn on boolean to notify user!
+        whatIfResults['isLargerPayment'] = True
+
         # calculate extra payment that can go towards paying principal
         extraPayment = payment - totalMonthlyIntPay
         # initialize new row of balance = principal
@@ -297,15 +298,36 @@ def calculateWhatIf(gradDate, loans, payment):
         totalUnsubsidizedPrincipal = unsubsidizedLoans['principal'].sum()
 
         # iterate through n payments, recalculating extra payment and reducing 
+        for i in range(n):
+            # loop through all loans
+            for l in range(len(loans)):
+                if loans.loc[l]['type'] == "unsubsidized":
+                    # calculate the proportion of unsubsidized loan amount
+                    prop = loans.loc[l]['principal'] / totalUnsubsidizedPrincipal
 
-        # TODO: implement this
-        whatIfResults['savedAllYears'] = -1
-    
+                    # use proportion to subtract portion of extra payment from unsubidized balance (ASSUMPTION: assuming that balance will not hit a negative number - respectfully I'm not sure how to do the math for that)
+                    loans.at[l, 'balance'] = float(loans.at[l, 'balance']) - prop * extraPayment
+                    if (loans.loc[l]['balance'] < 0):
+                        loans.at[l, 'balance'] = float(0)
     # else payment = monthlyPay -> this means that the balance that monthly pay is calculated off on = original principal
     else: 
         loans['balance'] = loans['principal']
-        whatIfResults['savedAllYears'] = calculateTotalSaved(gradDate, loans)
-    
+
+    # after calculating the new balance for every loan, calculate total saved over 10 years
+    whatIfResults['savedAllYears'] = calculateTotalSaved(gradDate, loans)
+
+
+    # calculate savedGracePeriod
+    whatIfResults['savedGracePeriod'] = payment * n
+    # maximum that can be saved in the grace period should only be the maximum of totalUnsubsidizedPrincipal + simple interest
+    unsubsidizedLoans = loans[loans['type'] == 'unsubsidized']
+    totalUnsubsidizedPrincipal = unsubsidizedLoans['principal'].sum()
+    totalSimpleInt = calculateMonthlyIntPay(gradDate, loans) * n
+    # this is an estimation - NOT THE EXACT NUMBER
+    # TODO: make more accurate
+    if whatIfResults['savedGracePeriod'] > totalUnsubsidizedPrincipal + totalSimpleInt:
+        whatIfResults['savedGracePeriod'] = totalUnsubsidizedPrincipal + totalSimpleInt
+
     return whatIfResults
 
 def calculateIndMonthlyPay(loans, years):
@@ -341,7 +363,7 @@ def calculateIndMonthlyPay(loans, years):
     '''
 
     # add new column initialized to 0
-    loans['monthlyPay'] = 0
+    loans['monthlyPay'] = 0.0
 
     for l in range(len(loans)):
         # current loan
@@ -361,7 +383,7 @@ def calculateIndMonthlyPay(loans, years):
             monthPayments = currLoan['balance'] / n
         
         # set monthlyPay value for given row
-        loans.loc[l]['monthlyPay'] = round(float(monthPayments), 2)
+        loans.at[l, 'monthlyPay'] = round(float(monthPayments), 2)
     
     return loans
 
