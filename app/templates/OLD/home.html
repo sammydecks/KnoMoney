@@ -1,0 +1,43 @@
+{% extends "base.html" %} 
+{% block content %}
+<!-- Hero Section -->
+<div class="container-fluid text-center py-5">
+    <h1 class="display-3 fw-bold text-success">Welcome to KnoMoney</h1>
+    <p class="lead fs-4 p-2 text-secondary">Where you can get to know money, before you have no money.</p>
+    <p class="fs-5 text-muted mx-auto" style="max-width: 650px;">
+        Student loans can be confusing to navigate. We want to make this process as easy as possible 
+        while saving you the most money possible.
+    </p>
+</div>
+
+<!-- CTA Button -->
+<div class="text-center my-4">
+    <a id="tourRedirect" class="btn btn-success btn-lg px-5 py-3 shadow-sm" href="{% url 'calculator' %}">
+        Calculate Your Savings NOW!
+    </a>
+</div>
+
+<!-- FAQ Section -->
+<div class="container text-center my-5">
+    <p class="fw-bold fs-4 text-secondary">Not sure how student loans or interest work?</p>
+    <p class="fs-5 text-muted mx-auto" style="max-width: 550px;">
+        Check out our FAQ for explanations and helpful resources.
+    </p>
+    <a class="btn btn-outline-success btn-lg px-4 py-2" href="{% url 'faq' %}">
+        <i class="bi bi-question-circle-fill me-2"></i> Frequently Asked Questions
+    </a>
+</div>
+
+<style>
+    /* Hover effect to enlarge the Calculate button */
+    #tourRedirect {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #tourRedirect:hover {
+        transform: scale(1.1); /* Slightly less aggressive scaling */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
+    }
+</style>
+
+{% endblock %}
