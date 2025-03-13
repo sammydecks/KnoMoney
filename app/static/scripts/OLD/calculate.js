@@ -1,5 +1,5 @@
 /* 
-Calculate.js
+calculate.js
 This file calculates the loan and returns the total saved interest amount
 
 */
