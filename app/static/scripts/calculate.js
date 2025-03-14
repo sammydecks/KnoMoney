@@ -18,7 +18,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
     const resultsContainer = document.getElementById("resultContainer");
 
     // save graduation date from input field
-    const gradDate = document.getElementById("graduationDate").value;
+    const gradDate = document.getElementById("graduationDate2").value;
 
     // save each loan information into an array
     loans = [] 

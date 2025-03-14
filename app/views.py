@@ -5,6 +5,8 @@ import json
 from .calculation import calculateResults, calculateWhatIf
 from .simplecalc import calculateSimpleResults
 from django.views.decorators.csrf import csrf_protect
+# only for TEMP share POST
+from django.views.decorators.csrf import csrf_exempt
 from enum import Enum
 
 class LoanRangeEnum(Enum):
@@ -82,4 +84,17 @@ def calculate_savings_simple(request):
         
         except Exception as err:
             return JsonResponse({"Error:", err}, safe=False, status=500)
+        
+# TEMP POST handling for POST when share is clicked
+@csrf_exempt
+def log_share(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            return JsonResponse({"message": "Event logged successfully"}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+    
+    return JsonResponse({"error": "Invalid request"}, status=405)
         
