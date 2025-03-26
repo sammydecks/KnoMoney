@@ -33,7 +33,7 @@
                         <i class="bi bi-question-circle-fill"></i>
                     </button>
                 </div>
-                <h2 id="savingsAmt" class="text-center mt-2"></h2>
+                <h2 class="savingsAmt text-center mt-2"></h2>
                 <button type="button" id="shareButton" class="btn btn-outline-success btn-lg w-100 p-2 mt-2">Share</button>
             </div>            
         </div>
@@ -41,10 +41,23 @@
 </form>
 
 <div id="sharePopup" class="position-fixed top-50 start-50 translate-middle bg-white p-4 rounded shadow-lg d-none" 
-     style="z-index: 1050; width: 400px; text-align: center;">
+     style="z-index: 1050; width: 500px; text-align: center;">
      <button type="button" class="btn-close position-absolute top-0 end-0 m-2" id="closePopup" aria-label="Close"></button>
-    <p class="mb-3">Share your savings information with your parents, or save for later reference.</p>
-    <p>We're working hard to bring you this feature, stay tuned!</p>
+     <div class="border p-2 m-1">
+        <p>Based on your selected loan range, you have potential to save:</p>
+        <p class="savingsAmt fw-bold fs-4"></p>
+        <p>
+           While you're in school, interest accrues on your unsubsidized loans. 
+           If unpaid, this interest gets added to your loan balance (capitalizes) after graduation, 
+           increasing future interest costs. To save money, you (or your family) 
+           can pay off the accrued interest before it capitalizes—reducing your total 
+           repayment amount and lowering long-term costs!
+        </p>
+     </div>
+    <p>Share this savings information with your parents, family, or save for later reference.</p>
+    <a id="emailButton" class="btn btn-outline-success btn-sm" href="#">Share via Email</a>
+    <button id="copyButton" class="btn btn-outline-primary btn-sm">Copy to Clipboard</button>
+    <p id="copyMessage" class="text-success d-none">Copied!</p>
 </div>
 
 <div id="detailCalc">

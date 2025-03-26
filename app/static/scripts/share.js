@@ -22,4 +22,21 @@ document.addEventListener("DOMContentLoaded", function () {
     closePopup.addEventListener("click", function () {
         popup.classList.add("d-none"); // Hide popup when Close is clicked
     });
+
+    // Share via email
+    document.getElementById("emailButton").addEventListener("click", function() {
+        let textToShare = document.querySelector("#sharePopup .border").innerText;
+        let emailBody = encodeURIComponent(textToShare);
+        let mailtoLink = `mailto:?subject=Potential Student Loan Savings&body=${emailBody}`;
+        this.setAttribute("href", mailtoLink);
+    });
+
+    document.getElementById("copyButton").addEventListener("click", function() {
+        let textToCopy = document.querySelector("#sharePopup .border").innerText; 
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            let message = document.getElementById("copyMessage");
+            message.classList.remove("d-none");
+            setTimeout(() => message.classList.add("d-none"), 2000);
+        });
+    });
 });
