@@ -10,10 +10,10 @@ from django.views.decorators.csrf import csrf_exempt
 from enum import Enum
 
 class LoanRangeEnum(Enum):
-    range1 = "$0 - $10K"
-    range2 = "$10K - $20K"
-    range3 = "$20K - $30K"
-    range4 = "$30K+"
+    range1 = "~ $10K"
+    range2 = "~ $20K"
+    range3 = "~ $30K"
+    range4 = "~ $40K"
 
 # Create your views here.
 def home(request):
