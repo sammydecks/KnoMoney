@@ -41,9 +41,12 @@ document.getElementById("expectedDebt").addEventListener("submit", async functio
         const totalSaved = data.totalSaved;
 
         // Fill in data on Home Page
-        let savingsAmt = document.getElementById("savingsAmt");
-        savingsAmt.innerHTML = totalSaved;
         document.querySelector("#saveContainer").classList.remove("d-none");
+        let savingsAmtElements = document.getElementsByClassName("savingsAmt");
+        for (let element of savingsAmtElements) {
+            element.textContent = totalSaved;
+        }
+        // savingsAmt.innerHTML = totalSaved;
     }
     catch (error) {
         console.error("Error in Calculating Potential Savings:", error);
