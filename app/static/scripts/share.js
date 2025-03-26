@@ -1,18 +1,46 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Share via email
     document.getElementById("emailButton").addEventListener("click", function() {
-        let textToShare = document.querySelector("#share").innerText;
-        let emailBody = encodeURIComponent(textToShare);
-        let mailtoLink = `mailto:?subject=Potential Student Loan Savings&body=${emailBody}`;
+        let savingsAmount = document.querySelector(".savingsAmt").innerText; 
+        let emailSubject = "Potential Student Loan Savings";
+        
+        let emailBody = 
+            "Hi,\n\n" +
+            "I wanted to share some important information about saving money on student loans.\n\n" +
+            `Based on the selected loan range, there is potential to save ${savingsAmount} by paying accrued interest before it capitalizes.\n\n` +
+            "Here's how it works:\n" +
+            "- While in school, interest accrues on unsubsidized loans.\n" +
+            "- If unpaid, this interest is added to the loan balance after graduation, increasing future costs.\n" +
+            "- By paying off accrued interest early, you can reduce your total repayment amount and lower long-term costs.\n\n" +
+            "Learn more and explore tools to help at KnowMoney: https://www.knomoney.com\n\n" +
+            "Additional resources:\n" +
+            "- FAQ: https://www.knomoney.com/faqs/\n";
+    
+        let mailtoLink = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        
         this.setAttribute("href", mailtoLink);
     });
+    
+    
 
     document.getElementById("copyButton").addEventListener("click", function() {
-        let textToCopy = document.querySelector("#share").innerText; 
+        let textToCopy = document.querySelector("#share").innerText;
+        let copyIcon = document.getElementById("copyIcon");
+    
         navigator.clipboard.writeText(textToCopy).then(() => {
-            let message = document.getElementById("copyMessage");
-            message.classList.remove("d-none");
-            setTimeout(() => message.classList.add("d-none"), 2000);
+            // Change icon to clipboard-check
+            copyIcon.classList.remove("bi-clipboard");
+            copyIcon.classList.add("bi-clipboard-check");
+    
+            // Update tooltip message
+            this.setAttribute("title", "Copied!");
+    
+            // Reset icon and tooltip after 2 seconds
+            setTimeout(() => {
+                copyIcon.classList.remove("bi-clipboard-check");
+                copyIcon.classList.add("bi-clipboard");
+                this.setAttribute("title", "Copy to clipboard");
+            }, 3000);
         });
     });
 });
