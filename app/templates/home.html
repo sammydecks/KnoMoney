@@ -22,20 +22,30 @@
                 <input type="submit" class="btn btn-success btn-lg" name="debtRange" value="$20K - $30K"></input>
                 <input type="submit" class="btn btn-success btn-lg" name="debtRange" value="$30K+"></input>
             </div>
-            <div id="saveContainer" class="col-md-4 m-auto border border-dark pt-3 pb-2 d-none">
-                <div class="d-flex align-items-center">
-                    <h3 class="flex-grow-1 text-center m-0">You could save:</h3>
-                    <button type="button" class="btn btn-outline-success btn-sm"
-                        data-bs-toggle="popover" 
-                        data-bs-placement="top"
-                        data-bs-title="Potential Savings Calculation" 
-                        data-bs-content="We estimate potential savings by comparing the selected loan balance range with and without capitalized interest. We assume loans are disbursed over four years prior to your graduation date, accruing interest at historical federal student loan rates. By making early payments prior to graduating, you can reduce the total interest added to your loan (captialized), lowering overall repayment costs. For more information, check out the FAQ page from the menu in the top left of your screen.">
-                        <i class="bi bi-question-circle-fill"></i>
-                    </button>
+            <div id="saveContainer" class="col-md-6 m-auto border border-dark pt-3 pb-2 d-none">
+                <button type="button" class="btn btn-outline-success btn-sm right"
+                    data-bs-toggle="popover" 
+                    data-bs-placement="top"
+                    data-bs-title="Potential Savings Calculation" 
+                    data-bs-content="We estimate potential savings by comparing the selected loan balance range with and without capitalized interest. We assume loans are disbursed over four years prior to your graduation date, accruing interest at historical federal student loan rates. By making early payments prior to graduating, you can reduce the total interest added to your loan (captialized), lowering overall repayment costs. For more information, check out the FAQ page from the menu in the top left of your screen.">
+                    <i class="bi bi-question-circle-fill"></i>
+                </button>
+                <div id="share">
+                    <p>Based on your selected loan range, you have potential to save:</p>
+                    <p class="savingsAmt fw-bold fs-4"></p>
+                    <p>
+                        While you're in school, interest accrues on your unsubsidized loans. 
+                        If unpaid, this interest gets added to your loan balance (capitalizes) after graduation, 
+                        increasing future interest costs. To save money, you (or your family) 
+                        can pay off the accrued interest before it capitalizes—reducing your total 
+                        repayment amount and lowering long-term costs!
+                    </p>
                 </div>
-                <h2 class="savingsAmt text-center mt-2"></h2>
-                <button type="button" id="shareButton" class="btn btn-outline-success btn-lg w-100 p-2 mt-2">Share</button>
-            </div>            
+                <p>Share this savings information with your parents, family, or save for later reference.</p>
+                <a id="emailButton" class="btn btn-outline-success btn-sm" href="#">Share via Email</a>
+                <a id="copyButton" class="btn btn-outline-primary btn-sm" href="#expectedDebt">Copy to Clipboard</a>
+                <p id="copyMessage" class="text-success d-none">Copied!</p>
+            </div>          
         </div>
     </div>
 </form>
