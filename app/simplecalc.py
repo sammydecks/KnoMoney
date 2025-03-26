@@ -6,10 +6,10 @@ from enum import Enum
 
 # Define the Enum for loan ranged
 class LoanRangeEnum(Enum):
-    range1 = "$0 - $10K"
-    range2 = "$10K - $20K"
-    range3 = "$20K - $30K"
-    range4 = "$30K+"
+    range1 = "~ $10K"
+    range2 = "~ $20K"
+    range3 = "~ $30K"
+    range4 = "~ $40K"
 
 # Basic Results populated 
 def calculateSimpleResults(gradDate, loanRange: LoanRangeEnum):
@@ -46,11 +46,12 @@ def calculateSimpleResults(gradDate, loanRange: LoanRangeEnum):
     n = 120 #over 10 years (120 months)
 
     # Set loan amount based on the enum
+    # NOTE: dividing all the values by 4 to estimate about a fourth of the loans are unsubsidized
     loanAmt = {
-        LoanRangeEnum.range1.value: 10000,
-        LoanRangeEnum.range2.value: 20000,
-        LoanRangeEnum.range3.value: 30000,
-        LoanRangeEnum.range4.value: 50000, #Assume $50 for highest range
+        LoanRangeEnum.range1.value: 10000/4,
+        LoanRangeEnum.range2.value: 20000/4,
+        LoanRangeEnum.range3.value: 30000/4,
+        LoanRangeEnum.range4.value: 50000/4, #Assume $50 for highest range
     }.get(loanRange.value, 0) #Default to 0 if something goes wrong
 
     # Estimate yearly loan takeout across 4 years
