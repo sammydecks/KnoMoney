@@ -4,7 +4,7 @@ import pandas as pd
 import json
 from .calculation import calculateResults, calculateWhatIf
 from .simplecalc import calculateSimpleResults
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 # only for TEMP share POST
 from enum import Enum
 
@@ -83,4 +83,21 @@ def calculate_savings_simple(request):
         
         except Exception as err:
             return JsonResponse({"Error:", err}, safe=False, status=500)
+        
+
+@csrf_exempt  # Disables CSRF protection for this view
+def track_action(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            action = data.get("action")
+
+            # Log or store action
+            print(f"User clicked: {action}")  # Replace with DB storage or analytics
+
+            return JsonResponse({"message": f"Tracked {action} click"}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
         

@@ -1,3 +1,16 @@
+const sendTrackingData = (action) => {
+    fetch("/track-action/", {  // Adjust URL if needed
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action }),
+    }).then(response => response.json())
+      .then(data => console.log("Tracking Response:", data))
+      .catch(error => console.error("Error tracking action:", error));
+};
+
+
 document.addEventListener("DOMContentLoaded", function () {
     // Share via email
     document.getElementById("emailButton").addEventListener("click", function() {
@@ -12,13 +25,16 @@ document.addEventListener("DOMContentLoaded", function () {
             "- While in school, interest accrues on unsubsidized loans.\n" +
             "- If unpaid, this interest is added to the loan balance after graduation, increasing future costs.\n" +
             "- By paying off accrued interest early, you can reduce your total repayment amount and lower long-term costs.\n\n" +
-            "Learn more and explore tools to help at KnowMoney: https://www.knomoney.com\n\n" +
+            "Learn more and explore tools to help at KnoMoney: https://www.knomoney.com\n\n" +
             "Additional resources:\n" +
             "- FAQ: https://www.knomoney.com/faqs/\n";
     
         let mailtoLink = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
         
         this.setAttribute("href", mailtoLink);
+
+        // POST
+        sendTrackingData("email_share");
     });
     
     
@@ -42,5 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 this.setAttribute("title", "Copy to clipboard");
             }, 3000);
         });
+
+        // POST
+        sendTrackingData("copy_to_clipboard");
     });
 });
