@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import pandas as pd
 import json
-from .calculation import calculateResults, calculateWhatIf
+from .calculation import calculateResults, calculateWhatIf, getInterestRate
 from .simplecalc import calculateSimpleResults
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 # only for TEMP share POST
@@ -14,6 +14,7 @@ class LoanRangeEnum(Enum):
     range3 = "~ $30K"
     range4 = "~ $40K"
 
+
 # Create your views here.
 def home(request):
     return render(request, "home.html")
@@ -24,6 +25,20 @@ def calculator(request):
 def faq(request):
     return render(request, "faq.html")
 
+@csrf_protect
+def get_interestrate(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
+            semester = (data["semester"])
+
+            # call initial function of calculating results
+            interest = getInterestRate(semester)
+            return JsonResponse({"interest": interest})
+        except Exception as err:
+            return JsonResponse({"error": str(err)}, status=500)
+        
+        
 @csrf_protect
 def calculate_interest(request):
     if request.method == "POST":
