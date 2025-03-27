@@ -90,6 +90,44 @@ def calculateInterest(gradDate, loans):
     totalInt = round(float(totalInt), 2) #cast to float and round to 2 decimal places
     return totalInt
 
+def getInterestRate(semester):
+    ''' 
+    Parameters:
+    ----------
+    semester (string): semester/year loan is received
+
+    Return:
+    -------
+    interest (float): the corresponding interest rate
+    '''
+    intRates = {
+        2025: 0.0653,
+        2024: 0.055,
+        2023: 0.055,
+        2022: 0.0499,
+        2021: 0.0373,
+        2020: 0.0275,
+        2019: 0.0453,
+        2018: 0.0505,
+        2017: 0.0445,
+        2016: 0.0376,
+        2015: 0.0429,
+        2014: 0.0466
+    }
+
+    dateReceived = semester.split(" ")
+    season = dateReceived[0]
+    year = int(dateReceived[1])
+
+    # if it's the fall semester, you would want to use the interest rate from the year after (ex. Fall 2024 means you use interest from 2024-2025 year, which is saved in 2025 key)
+    if (season == "Fall"):
+        year += 1
+    
+    # save the interest by using the year as the key
+    interest = intRates.get(year, 0.0653) #default to 2024-25 interest rate (6.53%) for all future years
+
+    # return interest finally
+    return interest
 
 
 def calculateTotalSaved(gradDate, loans, years=10):

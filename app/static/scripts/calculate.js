@@ -13,6 +13,54 @@ function getCSRFToken() {
         ?.split('=')[1];
 }
 
+// listener for inputting corresponding interest rate for semester
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("loanContainer").addEventListener("change", async function(event) {
+        if (!event.target.classList.contains("semester")) { return; }
+        const loanEntry = event.target.closest(".loanEntry");  // Find closest loan entry
+        if (!loanEntry) return;
+
+        // select semester for given loan
+        const semester = event.target.value;
+
+        // error is semester is not filled?
+        if (!semester) {
+            console.warn("Missing semester.");
+            return;
+        }
+
+        //Call Python function with API request
+        try {
+            // Fetch CSRF token and include in request
+            const csrfToken = getCSRFToken();
+            // frontend calls server endpoint with url calculate_interest
+            const response = await fetch("/get_interestrate", {
+                //HTTP request settings to send data to the backend as JSON
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+                },
+                body: JSON.stringify({semester}) //converts JSON object to JSON string
+            });
+
+            //if there is an error with request, throw error
+            if (!response.ok) throw new Error("Failed to fetch populate interest rate function");
+            
+            // parses response body as JSON
+            const data = await response.json();
+
+            const interest = data.interest;
+            // Location to fill in totalInterest value
+            let currentInterestField = loanEntry.querySelector("input[name='interest[]']");
+            if (currentInterestField) {currentInterestField.value = interest;}
+        }
+        catch (error) {
+            console.error("Error in Fetching Interest Rate:", error);
+        }
+    });
+});
+
 document.getElementById("loanForm").addEventListener("submit", async function(event) {
     event.preventDefault();  // Prevent default form submission
     const resultsContainer = document.getElementById("resultContainer");
