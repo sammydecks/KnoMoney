@@ -12,15 +12,13 @@ document.getElementById("addLoan").addEventListener("click", function () {
         </div>
         <div class="row">
             <div class="col-12 col-md">
-                <label class="form-label">Balance ($):</label>
-                <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" required>
+                <label for="semester" class="form-label">Semester Loan was Taken:</label>
+                <select name="semester[]" class="semester form-select" required>
+                    <option value="" disabled selected>-- select --</option>
+                </select>
             </div>
             <div class="col-12 col-md">
-                <label class="form-label">Interest Rate (%):</label>
-                <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" min="0.01" max="99.99" step="0.01" required>
-            </div>
-            <div class="col-12 col-md">
-                <label class="form-label">Loan Type:</label>
+                <label for="type" class="form-label">Loan Type:</label>
                 <select name="type[]" class="form-select" required>
                     <option value="" disabled selected>-- select --</option>
                     <option value="unsubsidized">Unsubsidized</option>
@@ -28,17 +26,23 @@ document.getElementById("addLoan").addEventListener("click", function () {
                 </select>
             </div>
             <div class="col-12 col-md">
-                <label class="form-label">Date Received:</label>
-                <input type="date" class="form-control" name="received[]" required>
+                <label for="balance" class="form-label">Balance ($): </label>
+                <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" required>
+            </div>
+            <div class="col-12 col-md">
+                <label for="interest" class="form-label">Interest Rate (%): </label>
+                <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" min="0.01" max="99.99" step="0.01" required>
             </div>
         </div>
     `;
 
     loanContainer.appendChild(newLoan);
 
+    // Populate the semester dropdown for the new loan
+    populateSemesterDropdowns();
+
     // Add event listener to remove the loan entry when "X" is clicked
     newLoan.querySelector(".btn-close").addEventListener("click", function () {
         loanContainer.removeChild(newLoan);
     });
 });
-
