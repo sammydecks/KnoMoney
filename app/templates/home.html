@@ -22,7 +22,7 @@
                 <input type="submit" class="btn btn-success btn-lg" name="debtRange" value="~ $30K"></input>
                 <input type="submit" class="btn btn-success btn-lg" name="debtRange" value="~ $40K"></input>
             </div>
-            <div id="saveContainer" class="col-md-6 m-auto border border-dark pt-3 pb-2 d-none">
+            <div id="saveContainer" class="col-md-6 m-auto border border-dark pt-3 pb-2 mt-3 d-none">
                 <div id="share">
                     <div class="position-relative">
                         <button type="button" class="btn btn-outline-success btn-sm position-absolute top-0 end-0"
@@ -88,8 +88,8 @@
                         <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" required>
                     </div>
                     <div id="interest" class="col-12 col-md">
-                        <label for="interest" class="form-label">Interest Rate (%): </label>
-                        <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" min="0.01" max="99.99" step="0.01" required>
+                        <label for="interest" class="form-label">Interest Rate: </label>
+                        <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" readonly>
                     </div>
                 </div>
             </fieldset>

@@ -30,16 +30,16 @@ document.getElementById("addLoan").addEventListener("click", function () {
                 <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" required>
             </div>
             <div class="col-12 col-md">
-                <label for="interest" class="form-label">Interest Rate (%): </label>
-                <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" min="0.01" max="99.99" step="0.01" required>
+                <label for="interest" class="form-label">Interest Rate: </label>
+                <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" readonly>
             </div>
         </div>
     `;
 
     loanContainer.appendChild(newLoan);
 
-    // Populate the semester dropdown for the new loan
-    populateSemesterDropdowns();
+    // Populate only the new loan's semester dropdown
+    populateSemesterDropdown(newLoan.querySelector(".semester"));
 
     // Add event listener to remove the loan entry when "X" is clicked
     newLoan.querySelector(".btn-close").addEventListener("click", function () {

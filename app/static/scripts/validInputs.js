@@ -16,20 +16,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function populateSemesterDropdowns() {
-    const startYear = 2015;
-    const endYear = 2025;
-    const semesters = ["Spring", "Summer", "Fall"];
-    
     document.querySelectorAll(".semester").forEach(select => {
-        select.innerHTML = '<option value="" disabled selected>-- select --</option>'; // Clear existing options
-
-        for (let year = startYear; year <= endYear; year++) {
-            semesters.forEach(semester => {
-                let option = document.createElement("option");
-                option.value = `${semester} ${year}`;
-                option.textContent = `${semester} ${year}`;
-                select.appendChild(option);
-            });
-        }
+        populateSemesterDropdown(select);
     });
+}
+
+function populateSemesterDropdown(select) {
+    const startYear = 2015;
+    const endYear = 2024;
+    const semesters = ["Fall", "Summer", "Spring"];
+
+    select.innerHTML = '<option value="" disabled selected>-- select --</option>'; // Clear any existing options
+    
+    // add Spring 2025
+    let option = document.createElement("option");
+    option.value = `Spring 2025`;
+    option.textContent = `Spring 2025`;
+    select.appendChild(option);
+
+    // all semester 2015 - 2024
+    for (let year = endYear; year >= startYear; year--) {
+        semesters.forEach(semester => {
+            let option = document.createElement("option");
+            option.value = `${semester} ${year}`;
+            option.textContent = `${semester} ${year}`;
+            select.appendChild(option);
+        });
+    }
 }
