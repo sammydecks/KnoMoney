@@ -12,9 +12,9 @@ def calculateResults(gradDate, loans):
         [loanNum: int,
         principal: float,
         interest: float,
-        type: enum (subsidized, unsubsidized)
-        dateReceived: datetime]
-    
+        type: enum (subsidized, unsubsidized),
+        semReceived: string,
+        balance: float]  
     Return:
     ------
     results (dictionary): all results that will populate the calculator page
@@ -24,6 +24,9 @@ def calculateResults(gradDate, loans):
         savedGracePeriod: float,
         savedAllYears: float]
     '''
+
+    # call function to add new column (dateReceived) in loans df to change semester to datetime
+    loans = semesterToDate(loans)
 
     results = {
         "totalInterest": 0,
@@ -64,8 +67,10 @@ def calculateInterest(gradDate, loans):
         [loanNum: int,
         principal: float,
         interest: float,
-        type: enum (subsidized, unsubsidized)
-        dateReceived: datetime]
+        type: enum (subsidized, unsubsidized),
+        semReceived: string,
+        dateReceived: datetime,
+        balance: float]  
     
     Return:
     ------
@@ -251,9 +256,10 @@ def calculateWhatIf(gradDate, loans, payment):
         [loanNum: int,
         principal: float,
         interest: float,
-        type: enum (subsidized, unsubsidized)
-        dateReceived: datetime]
-    
+        type: enum (subsidized, unsubsidized),
+        semReceived: string,
+        dateReceived: datetime (?),
+        balance: float]  
     Return:
     ------
     whatIfResults (pd df):
@@ -285,6 +291,8 @@ def calculateWhatIf(gradDate, loans, payment):
     - calculate total paid by end of grace period (payment * (months left until graduation + 6))
         
     '''
+    if ('dateReceived' not in loans):
+        loans = semesterToDate(loans)
 
     # total monthly interest payment in order to not have any interest capitalized
     totalMonthlyIntPay = calculateMonthlyIntPay(gradDate, loans)
@@ -377,6 +385,7 @@ def calculateIndMonthlyPay(loans, years):
         principal: float,
         interest: float,
         type: enum (subsidized, unsubsidized),
+        semReceived: string,
         dateReceived: datetime,
         balance: float]
     years (float): number of years expected to take to pay off entire student loan (default=10 years)
@@ -388,8 +397,9 @@ def calculateIndMonthlyPay(loans, years):
         principal: float,
         interest: float,
         type: enum (subsidized, unsubsidized),
+        semReceived: string,
         dateReceived: datetime,
-        balance: float
+        balance: float,
         monthlyPay: float]  
     '''
 
@@ -425,6 +435,42 @@ def calculateIndMonthlyPay(loans, years):
     
     return loans
 
+def semesterToDate(loans):
+    '''
+    Parameters:
+    ----------
+    loans (pd df): 
+        [loanNum: int,
+        principal: float,
+        interest: float,
+        type: enum (subsidized, unsubsidized),
+        semReceived: string,
+        balance: float]  
+
+    Return:
+    ------
+    loans (pd df): 
+        [loanNum: int,
+        principal: float,
+        interest: float,
+        type: enum (subsidized, unsubsidized),
+        semReceived: string,
+        dateReceived: datetime,
+        balance: float]
+    '''
+
+    # dictionary to hold conversions from season to month
+    semester_months = {"Spring": 1, "Summer": 6, "Fall": 8}
+
+    # loop through each of the loans 
+    for l in range(len(loans)):
+        currLoan = loans.loc[l]
+        season, year = currLoan['semReceived'].split(" ")
+        currLoan['dateReceived'] = pd.to_datetime(f"{int(year)}-{semester_months.get(season, 8)}-01")
+
+    return loans
+    
+    
 
 # main method
 if __name__ == "__main__":

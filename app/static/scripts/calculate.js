@@ -14,7 +14,7 @@ function getCSRFToken() {
 }
 
 // listener for inputting corresponding interest rate for semester
-document.addEventListener("DOMContentLoaded", function () {
+// document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("loanContainer").addEventListener("change", async function(event) {
         if (!event.target.classList.contains("semester")) { return; }
         const loanEntry = event.target.closest(".loanEntry");  // Find closest loan entry
@@ -59,9 +59,12 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error in Fetching Interest Rate:", error);
         }
     });
-});
+// });
 
+// listener for calculate submit button
 document.getElementById("loanForm").addEventListener("submit", async function(event) {
+    console.log("Called!");
+
     event.preventDefault();  // Prevent default form submission
     const resultsContainer = document.getElementById("resultContainer");
 
@@ -75,19 +78,18 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
         const balance = loanEntry.querySelector('input[name="balance[]"]').value;
         const interest = loanEntry.querySelector('input[name="interest[]"]').value;
         const type = loanEntry.querySelector('select[name="type[]"]').value;
-        const received = loanEntry.querySelector('input[name="received[]"]').value;
- 
+        const received = loanEntry.querySelector('select[name="semester[]"]').value;
+
         // create JSON object and add to loans
         loans.push({
             loanNum: index + 1,
             principal: parseFloat(balance),
             interest: parseFloat(interest),
             type: type,
-            dateReceived: received
+            semReceived: received
         })
     });
 
-    
     //Call Python function with API request
     try {
         // Fetch CSRF token and include in request
@@ -160,15 +162,15 @@ document.getElementById("whatIfForm").addEventListener("submit", async function(
         const balance = loanEntry.querySelector('input[name="balance[]"]').value;
         const interest = loanEntry.querySelector('input[name="interest[]"]').value;
         const type = loanEntry.querySelector('select[name="type[]"]').value;
-        const received = loanEntry.querySelector('input[name="received[]"]').value;
- 
+        const received = loanEntry.querySelector('select[name="semester[]"]').value;
+
         // create JSON object and add to loans
         loans.push({
             loanNum: index + 1,
             principal: parseFloat(balance),
             interest: parseFloat(interest),
             type: type,
-            dateReceived: received
+            semReceived: received
         })
     });
 
