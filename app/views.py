@@ -30,15 +30,15 @@ def get_interestrate(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
-            semester = (data["semester"])
+            semester = data["semester"]
 
             # call initial function of calculating results
             interest = getInterestRate(semester)
             return JsonResponse({"interest": interest})
         except Exception as err:
             return JsonResponse({"error": str(err)}, status=500)
-        
-        
+    return JsonResponse({"error": "POST only"}, status=405)  # Add this line
+
 @csrf_protect
 def calculate_interest(request):
     if request.method == "POST":
@@ -46,7 +46,6 @@ def calculate_interest(request):
             data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
             gradDate = pd.to_datetime(data["gradDate"])
             loans_df = pd.DataFrame(data["loans"])  # Convert JSON to pandas DataFrame
-
             # call initial function of calculating results
             results = calculateResults(gradDate, loans_df)
             return JsonResponse({"totalInterest": results['totalInterest'],
