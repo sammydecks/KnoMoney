@@ -108,8 +108,6 @@ def getInterestRate(semester):
     -------
     interest (float): the corresponding interest rate
     '''
-    if ('dateReceived' not in loans):
-        loans = semesterToDate(loans)
 
     intRates = {
         2025: 0.0653,
@@ -479,7 +477,7 @@ def semesterToDate(loans):
     for l in range(len(loans)):
         currLoan = loans.loc[l]
         season, year = currLoan['semReceived'].split(" ")
-        currLoan['dateReceived'] = pd.to_datetime(f"{int(year)}-{semester_months.get(season, 8)}-01")
+        loans.at[l, 'dateReceived'] = pd.to_datetime(f"{int(year)}-{semester_months.get(season, 8)}-01")
 
     return loans
     

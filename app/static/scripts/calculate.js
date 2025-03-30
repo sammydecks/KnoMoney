@@ -14,7 +14,7 @@ function getCSRFToken() {
 }
 
 // listener for inputting corresponding interest rate for semester
-// document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("loanContainer").addEventListener("change", async function(event) {
         if (!event.target.classList.contains("semester")) { return; }
         const loanEntry = event.target.closest(".loanEntry");  // Find closest loan entry
@@ -36,7 +36,7 @@ function getCSRFToken() {
             // frontend calls server endpoint with url calculate_interest
             const response = await fetch("/get_interestrate", {
                 //HTTP request settings to send data to the backend as JSON
-                method: "GET",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRFToken": csrfToken  // Include CSRF token in request headers
@@ -59,7 +59,7 @@ function getCSRFToken() {
             console.error("Error in Fetching Interest Rate:", error);
         }
     });
-// });
+});
 
 // listener for calculate submit button
 document.getElementById("loanForm").addEventListener("submit", async function(event) {
