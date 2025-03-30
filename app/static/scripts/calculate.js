@@ -36,7 +36,7 @@ function getCSRFToken() {
             // frontend calls server endpoint with url calculate_interest
             const response = await fetch("/get_interestrate", {
                 //HTTP request settings to send data to the backend as JSON
-                method: "POST",
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRFToken": csrfToken  // Include CSRF token in request headers
@@ -63,8 +63,6 @@ function getCSRFToken() {
 
 // listener for calculate submit button
 document.getElementById("loanForm").addEventListener("submit", async function(event) {
-    console.log("Called!");
-
     event.preventDefault();  // Prevent default form submission
     const resultsContainer = document.getElementById("resultContainer");
 

@@ -27,10 +27,10 @@ def faq(request):
 
 @csrf_protect
 def get_interestrate(request):
-    if request.method == "POST":
+    if request.method == "GET":
         try:
             data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
-            semester = (data["semester"])
+            semester = data.get("semester")
 
             # call initial function of calculating results
             interest = getInterestRate(semester)
@@ -38,7 +38,7 @@ def get_interestrate(request):
         except Exception as err:
             return JsonResponse({"error": str(err)}, status=500)
         
-        
+
 @csrf_protect
 def calculate_interest(request):
     if request.method == "POST":
@@ -46,9 +46,10 @@ def calculate_interest(request):
             data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
             gradDate = pd.to_datetime(data["gradDate"])
             loans_df = pd.DataFrame(data["loans"])  # Convert JSON to pandas DataFrame
-
+            print("Before calling function")
             # call initial function of calculating results
             results = calculateResults(gradDate, loans_df)
+            print("After calling function")
             return JsonResponse({"totalInterest": results['totalInterest'],
                                  "totalSaved": results['totalSaved'],
                                  "monthlyPay": results['monthlyPay'],

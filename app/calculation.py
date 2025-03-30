@@ -76,6 +76,9 @@ def calculateInterest(gradDate, loans):
     ------
     totalInt (float): total interest paid
     '''
+    if ('dateReceived' not in loans):
+        loans = semesterToDate(loans)
+
     totalInt = 0
     
     # iterate through each loan
@@ -105,6 +108,9 @@ def getInterestRate(semester):
     -------
     interest (float): the corresponding interest rate
     '''
+    if ('dateReceived' not in loans):
+        loans = semesterToDate(loans)
+
     intRates = {
         2025: 0.0653,
         2024: 0.055,
@@ -169,6 +175,8 @@ def calculateTotalSaved(gradDate, loans, years=10):
     - This total paid value is subtracted with the original principal to result in the total amount saved for that single unsubsidized loan if the student paid off that daily simple interest
     - This is summed across all unsubsidized loans
     '''
+    if ('dateReceived' not in loans):
+        loans = semesterToDate(loans)
 
     loans = calculateIndMonthlyPay(loans, years) #creates a new col in loans (monthlyPay: float) that will be used in the calculation below to see total saved
 
@@ -235,6 +243,8 @@ def calculateMonthlyIntPay(gradDate, loans):
     - The current date from today until end of grace period is calculated
     - ASSUMING that no simple accrued payment has been paid off, the total interest is divided by remaining months (rounded down) to calculate monthly pay
     '''
+    if ('dateReceived' not in loans):
+        loans = semesterToDate(loans)
 
     # calculate total interest from receiving loans to graduation
     totalInterest = calculateInterest(gradDate, loans)
@@ -409,6 +419,8 @@ def calculateIndMonthlyPay(loans, years):
         (balance=principal if all the accrued interest is paid - using balance will help use this method if principal changes due to payments while in school)
     - Calculate the monthly payment and add as a new column in df
     '''
+    if ('dateReceived' not in loans):
+        loans = semesterToDate(loans)
 
     # add new column initialized to 0
     loans['monthlyPay'] = 0.0
@@ -458,10 +470,11 @@ def semesterToDate(loans):
         dateReceived: datetime,
         balance: float]
     '''
-
+    
     # dictionary to hold conversions from season to month
     semester_months = {"Spring": 1, "Summer": 6, "Fall": 8}
 
+    loans['dateReceived'] = pd.NaT  
     # loop through each of the loans 
     for l in range(len(loans)):
         currLoan = loans.loc[l]
