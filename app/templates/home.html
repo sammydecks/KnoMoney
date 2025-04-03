@@ -122,7 +122,7 @@
             </div>
         </fieldset>
     </div> 
-    <div id="recommendationsContainer" class="mb-5">
+    <div id="recommendationsContainer">
         <fieldset class="container">
             <div class="border border-dark p-3 mt-3 text-center d-none">
                 <h2 class="mb-3">RECOMMENDATIONS</h2>
@@ -140,6 +140,15 @@
                 </p>
             </div>
         </fieldset>
+    </div>
+    <div id="refer" class="container text-center border w-50 p-2 mb-5">
+        <h5>Refer a Friend</h5>
+        <p>Share this with a friend who might benefit!</p>
+        <div class="input-group mb-1">
+            <input type="email" id="friendEmail" class="form-control" placeholder="Friend's Email" required>
+            <button id="sendEmail" class="btn btn-success">Send</button>
+        </div>
+        <p class="text-muted small">This will draft an email to share KnoMoney.com</p>
     </div>
 </div>
 {% endblock %}
