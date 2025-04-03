@@ -76,7 +76,19 @@
                         </select>
                     </div>
                     <div id="type" class="col-12 col-md">
-                        <label for="type" class="form-label">Loan Type:</label>
+                        <label for="type" class="form-label">Loan Type</label>
+                        <button type="button" class="btn btn-outline-success btn-sm ms-1"
+                            data-bs-toggle="popover" 
+                            data-bs-placement="top"
+                            data-bs-title="Unsubsidized vs Subsidized?" 
+                            data-bs-content=
+                                "Unsubsidized loans accrue interest from the time they are disbursed, 
+                                and you are responsible for all interest payments. The government covers
+                                the interest for subsidized loans while in school plus 6 months after graduation.
+                                You can check which type you have by logging into studentaid.gov or reviewing 
+                                your financial aid award letter.">
+                            <i class="bi bi-question-circle-fill"></i>
+                        </button>
                         <select name="type[]" class="form-select" required>
                             <option value="" disabled selected>-- select --</option>
                             <option value="unsubsidized">Unsubsidized</option>
@@ -128,12 +140,6 @@
                 </p>
             </div>
         </fieldset>
-    </div> 
-    <div class="text-center">
-        <div class="container alert alert-info d-inline-block m-2 text-center" role="alert">
-            <strong>Privacy Notice:</strong> The loan information you enter into this calculator is 
-            <strong>not stored, saved, or shared</strong> in any way.
-        </div>
     </div>
 </div>
 {% endblock %}
