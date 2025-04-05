@@ -5,7 +5,7 @@
 <div class="container-fluid text-center py-5">
     <h1 class="display-3 fw-bold text-success">Welcome to KnoMoney</h1>
     <p class="fs-5 text-muted mx-auto" style="max-width: 650px;">
-        We to make student loans as easy as possible, while saving you the most money possible.
+        We are making student loans as easy as possible, while saving you the most money possible.
     </p>
 </div>
 <form id="expectedDebt" class="was-validated">
@@ -76,7 +76,19 @@
                         </select>
                     </div>
                     <div id="type" class="col-12 col-md">
-                        <label for="type" class="form-label">Loan Type:</label>
+                        <label for="type" class="form-label">Loan Type</label>
+                        <button type="button" class="btn btn-outline-success btn-sm ms-1"
+                            data-bs-toggle="popover" 
+                            data-bs-placement="top"
+                            data-bs-title="Unsubsidized vs Subsidized?" 
+                            data-bs-content=
+                                "Unsubsidized loans accrue interest from the time they are disbursed, 
+                                and you are responsible for all interest payments. The government covers
+                                the interest for subsidized loans while in school plus 6 months after graduation.
+                                You can check which type you have by logging into studentaid.gov or reviewing 
+                                your financial aid award letter.">
+                            <i class="bi bi-question-circle-fill"></i>
+                        </button>
                         <select name="type[]" class="form-select" required>
                             <option value="" disabled selected>-- select --</option>
                             <option value="unsubsidized">Unsubsidized</option>
@@ -110,7 +122,7 @@
             </div>
         </fieldset>
     </div> 
-    <div id="recommendationsContainer" class="mb-5">
+    <div id="recommendationsContainer">
         <fieldset class="container">
             <div class="border border-dark p-3 mt-3 text-center d-none">
                 <h2 class="mb-3">RECOMMENDATIONS</h2>
@@ -128,12 +140,15 @@
                 </p>
             </div>
         </fieldset>
-    </div> 
-    <div class="text-center">
-        <div class="container alert alert-info d-inline-block m-2 text-center" role="alert">
-            <strong>Privacy Notice:</strong> The loan information you enter into this calculator is 
-            <strong>not stored, saved, or shared</strong> in any way.
+    </div>
+    <div id="refer" class="container text-center border w-50 p-2 mb-5">
+        <h5>Refer a Friend</h5>
+        <p>Share this with a friend who might benefit!</p>
+        <div class="input-group mb-1">
+            <input type="email" id="friendEmail" class="form-control" placeholder="Friend's Email" required>
+            <button id="sendEmail" class="btn btn-success">Send</button>
         </div>
+        <p class="text-muted small">This will draft an email to share KnoMoney.com</p>
     </div>
 </div>
 {% endblock %}
