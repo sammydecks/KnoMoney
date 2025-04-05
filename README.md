@@ -17,7 +17,7 @@ KnoMoney empowers college students to take control of their finances by understa
 # Tech Stack
 * **Backend:** Django
 * **Frontend:** Bootstrap
-* **Database:** N/A
+* **Database:** PostgreSQL & Amazon AWS
 * **APIs:** N/A
 
 
@@ -28,6 +28,30 @@ git clone https://github.com/sammydecks/KnoMoney.git
 cd project-name
 ```
 
+## Database Setup
+Resources:
+- https://www.youtube.com/watch?v=z_FN0Zu-Z3Q
+
+1. Install `pip install psycopg2-binary` in virtual environment
+2. Create AWS database and update settings.py (Following already done!)
+3. Edit inbound rules to connect django application to postgreSQL application
+4. Migrate database files to postgreSQL with `python3 manage.py makemigrations` and `python3 manage.py migrate`
+5. Can add superuser with `python3 manage.py createsuperuser` (already created below to use!)
+
+**Admin Account**
+1. Start local host: `python3 manage.py runserver`
+2. Write 'admin' in url name: `http://127.0.0.1:8000/admin`
+3. Log in with credentials (Username: admin | Password: same as knoyourmoney@gmail.com)
+
+Debugging Issues: If there is a `CSRF verification failed`, turn on all browser cookies in web browser.
+
+
+
+### Amazon AWS Information
+- DB Instance Identifier: knomoney-database
+- Credentials - Master Username: knomoney_team
+- Database Name: knomoney_database
+
 ## Install Dependencies
 ```
 pip install -r requirements.txt  # For Django
@@ -37,7 +61,6 @@ For MacOS:
 2. Activate virtual environment: `source venv/bin/activate`
 3. Install any dependencies: ex. `pip3 install django`
 4. Exit virtual environment: `deactivate`
-
 
 ## Run the Server
 ```

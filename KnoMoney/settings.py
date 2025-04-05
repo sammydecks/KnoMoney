@@ -82,10 +82,22 @@ WSGI_APPLICATION = "KnoMoney.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
+# NEW DATABASE USING POSTGRESQL
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": 'django.db.backends.postgresql',
+        "NAME": 'knomoney_database',
+        "USER": 'knomoney_team',
+        "PASSWORD": 'SammyMimiTJ2025',
+        "HOST": 'knomoney-database.c9ceuaeugop4.us-east-1.rds.amazonaws.com',
+        "PORT": '5432',
     }
 }
 
