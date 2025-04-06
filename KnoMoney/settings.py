@@ -91,38 +91,37 @@ WSGI_APPLICATION = "KnoMoney.wsgi.application"
 
 # NEW DATABASE USING POSTGRESQL
 if DEBUG: # local database for dev
+        # DATABASES = {
+        #     "default": {
+        #         "ENGINE": 'django.db.backends.postgresql',
+        #         "NAME": 'knomoney_local',
+        #         "USER": 'knomoney_dev',
+        #         "PASSWORD": 'password',
+        #         "HOST": '127.0.0.1',
+        #         "PORT": '5432',
+        #     }
+        # }
         DATABASES = {
-        "default": {
-            "ENGINE": 'django.db.backends.postgresql',
-            "NAME": 'knomoney_local',
-            "USER": 'knomoney_dev',
-            "PASSWORD": 'password',
-            "HOST": '127.0.0.1',
-            "PORT": '5432',
+            "default": {
+                "ENGINE": 'django.db.backends.postgresql',
+                "NAME": 'knomoney_database', 
+                "USER": 'knomoney_team',
+                "PASSWORD": 'SammyMimiTJ2025',
+                "HOST": 'knomoney-database.c9ceuaeugop4.us-east-1.rds.amazonaws.com',
+                "PORT": '5432',
+            }
         }
-    }
 else: # production AWS database
     DATABASES = {
         "default": {
             "ENGINE": 'django.db.backends.postgresql',
-            "NAME": 'knomoney_database', 
-            "USER": 'knomoney_team',
-            "PASSWORD": 'SammyMimiTJ2025',
-            "HOST": 'knomoney-database.c9ceuaeugop4.us-east-1.rds.amazonaws.com',
-            "PORT": '5432',
+            "NAME": os.environ.get('DB_NAME'),
+            "USER": os.environ.get('DB_USER'),
+            "PASSWORD": os.environ.get('DB_PASSWD'),
+            "HOST": os.environ.get('DB_HOST'),
+            "PORT": os.environ.get('DB_PORT', '5432'),
         }
     }
-
-    # DATABASES = {
-    #     "default": {
-    #         "ENGINE": 'django.db.backends.postgresql',
-    #         "NAME": os.environ.get('DB_NAME'),
-    #         "USER": os.environ.get('DB_USER'),
-    #         "PASSWORD": os.environ.get('DB_PASSWD'),
-    #         "HOST": os.environ.get('DB_HOST'),
-    #         "PORT": os.environ.get('DB_PORT', '5432'),
-    #     }
-    # }
 
 
 # Password validation
