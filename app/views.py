@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.db import models
+from .models import Referral
 import pandas as pd
 import json
 from .calculation import calculateResults, calculateWhatIf, getInterestRate
@@ -115,3 +117,18 @@ def track_action(request):
 
     return JsonResponse({"error": "Invalid request method"}, status=405)
         
+
+# creating forms to save emails to database
+@csrf_protect
+def upload_referral(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
+            email = data["email"]
+
+            # save email to database Referrals table
+            Referral.objects.create(referral_email=email)
+            return JsonResponse({"message": "Email saved successfully"})
+        except Exception as err:
+            return JsonResponse({"error": str(err)}, status=500)
+    return JsonResponse({"error": "POST only"}, status=405)  # Add this line

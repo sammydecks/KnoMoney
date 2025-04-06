@@ -32,7 +32,7 @@ cd project-name
 Resources:
 - https://www.youtube.com/watch?v=z_FN0Zu-Z3Q
 
-1. Install `pip install psycopg2-binary` in virtual environment
+1. Install `pip install psycopg2-binary`  and `postgresql` in virtual environment
 2. Create AWS database and update settings.py (Following already done!)
 3. Edit inbound rules to connect django application to postgreSQL application
 4. Migrate database files to postgreSQL with `python3 manage.py makemigrations` and `python3 manage.py migrate`
@@ -45,12 +45,21 @@ Resources:
 
 Debugging Issues: If there is a `CSRF verification failed`, turn on all browser cookies in web browser.
 
-
-
 ### Amazon AWS Information
 - DB Instance Identifier: knomoney-database
 - Credentials - Master Username: knomoney_team
 - Database Name: knomoney_database
+
+### Dbeaver Connection to Amazon RDS Instance
+- https://www.youtube.com/watch?v=_Yzr7yBGWQI
+1. Create RDS instance and copy endpoint
+2. Add in username and password and connect
+- https://www.youtube.com/watch?v=RDH5yZHNYdI
+
+Test: `python3 manage.py dbshell`
+
+### CRUD Operations
+- https://docs.djangoproject.com/en/5.1/topics/db/models/
 
 ## Install Dependencies
 ```

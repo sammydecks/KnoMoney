@@ -93,7 +93,7 @@ WSGI_APPLICATION = "KnoMoney.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": 'django.db.backends.postgresql',
-        "NAME": 'knomoney_database',
+        "NAME": 'knomoney_database', 
         "USER": 'knomoney_team',
         "PASSWORD": 'SammyMimiTJ2025',
         "HOST": 'knomoney-database.c9ceuaeugop4.us-east-1.rds.amazonaws.com',
