@@ -1,11 +1,15 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here
 class Referral(models.Model):
-    referral_email = models.EmailField(max_length=254)
+    referral_id = models.AutoField(primary_key=True, serialize=True)
+    email = models.EmailField(max_length=255)
+    submit_time = models.DateTimeField(default=timezone.now)
+
 
     def __str__(self):
-        return self.referral_email
+        return self.email
 
 
 # Example model?

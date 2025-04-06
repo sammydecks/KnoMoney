@@ -124,11 +124,13 @@ def upload_referral(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
-            email = data["email"]
+            ref_email = data["email"]
 
             # save email to database Referrals table
-            Referral.objects.create(referral_email=email)
-            return JsonResponse({"message": "Email saved successfully"})
+            Referral.objects.create(email=ref_email)     
+            
+            return JsonResponse({"message": "Referral email saved successfully!"}) 
+            # return render(request, "home.html", {"message": "Referral email saved successfully!"})
         except Exception as err:
             return JsonResponse({"error": str(err)}, status=500)
     return JsonResponse({"error": "POST only"}, status=405)  # Add this line

@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
             console.warn("Missing email.");
             return;
         }
-
-        console.log("Email to send:", email);
         //Call Python function with API request
         try {
             // Fetch CSRF token and include in request
@@ -36,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) throw new Error("Failed to save referral email");
         }
         catch (error) {
-            console.error("Error in Fetching Interest Rate:", error);
+            console.error("Error in Saving Email", error);
         }
     });
 });
