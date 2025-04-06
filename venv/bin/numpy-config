@@ -1,4 +1,4 @@
-#!/Users/samanthadecker/Documents/Spring2025/Startups/KnoMoney/venv/bin/python3.12
+#!/Users/samanthadecker/Documents/Spring2025/Startups/KnoMoney/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
