@@ -1,15 +1,45 @@
-const sendTrackingData = (action) => {
-    fetch("/track-action/", {  // Adjust URL if needed
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ action }),
-    }).then(response => response.json())
-      .then(data => console.log("Tracking Response:", data))
-      .catch(error => console.error("Error tracking action:", error));
-};
+// const sendTrackingData = (action) => {
+//     fetch("/track-action/", {  // Adjust URL if needed
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ action }),
+//     }).then(response => response.json())
+//       .then(data => console.log("Tracking Response:", data))
+//       .catch(error => console.error("Error tracking action:", error));
+// };
 
+
+// Save Shared Emails
+document.addEventListener("DOMContentLoaded", function () {
+    // send button next to "share with a friend" input
+    document.getElementById("emailButton").addEventListener("click", async function(event) {
+        let email = document.getElementById("shareEmail").value;
+    
+        if (!email) {
+            console.warn("Missing email.");
+            return;
+        }
+    
+        try {
+            const csrfToken = getCSRFToken();
+    
+            const response = await fetch("/upload_sharedemail/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({email})
+            });
+    
+            if (!response.ok) throw new Error("Failed to save referral email");
+        } catch (error) {
+            console.error("Error in Saving Email", error);
+        }
+    });    
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("emailButton").addEventListener("click", function(event) {
@@ -53,9 +83,11 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = mailtoLink;
 
         // POST
-        sendTrackingData("email_share");
+        // sendTrackingData("email_share");
     });
     
+    
+
     
 
     document.getElementById("copyButton").addEventListener("click", function() {

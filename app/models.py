@@ -11,6 +11,15 @@ class Referral(models.Model):
         return f"Email: {self.email} - {self.submit_time.strftime('%m-%d-%Y %H:%M:%S')}"
 
 
+class SharedEmail(models.Model):
+    sharedemail_id = models.AutoField(primary_key=True, serialize=True)
+    email = models.EmailField(max_length=255)
+    submit_time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Email: {self.email} - {self.submit_time.strftime('%m-%d-%Y %H:%M:%S')}"
+
+
 class LoanCalculation(models.Model):
     loancalculation_id = models.AutoField(primary_key=True, serialize=True)
     expected_grad_date = models.DateTimeField(null=False)
