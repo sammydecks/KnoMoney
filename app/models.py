@@ -7,7 +7,6 @@ class Referral(models.Model):
     email = models.EmailField(max_length=255)
     submit_time = models.DateTimeField(default=timezone.now)
 
-
     def __str__(self):
         return self.email
 

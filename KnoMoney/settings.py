@@ -101,16 +101,6 @@ if DEBUG: # local database for dev
                 "PORT": '5432',
             }
         }
-        # DATABASES = {
-        #     "default": {
-        #         "ENGINE": 'django.db.backends.postgresql',
-        #         "NAME": 'knomoney_database', 
-        #         "USER": 'knomoney_team',
-        #         "PASSWORD": 'SammyMimiTJ2025',
-        #         "HOST": 'knomoney-database.c9ceuaeugop4.us-east-1.rds.amazonaws.com',
-        #         "PORT": '5432',
-        #     }
-        # }
 else: # production AWS database
     DATABASES = {
         "default": {
