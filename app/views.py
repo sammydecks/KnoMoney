@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db import models
-from .models import Referral, LoanCalculation, IndividualLoan
+from .models import Referral, LoanCalculation, IndividualLoan, SharedEmail
 import pandas as pd
 import json
 from .calculation import calculateResults, calculateWhatIf, getInterestRate
@@ -101,21 +101,21 @@ def calculate_savings_simple(request):
             return JsonResponse({"Error:", err}, safe=False, status=500)
         
 
-@csrf_exempt  # Disables CSRF protection for this view
-def track_action(request):
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            action = data.get("action")
+# @csrf_exempt  # Disables CSRF protection for this view
+# def track_action(request):
+#     if request.method == "POST":
+#         try:
+#             data = json.loads(request.body)
+#             action = data.get("action")
 
-            # Log or store action
-            print(f"User clicked: {action}")  # Replace with DB storage or analytics
+#             # Log or store action
+#             print(f"User clicked: {action}")  # Replace with DB storage or analytics
 
-            return JsonResponse({"message": f"Tracked {action} click"}, status=200)
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON"}, status=400)
+#             return JsonResponse({"message": f"Tracked {action} click"}, status=200)
+#         except json.JSONDecodeError:
+#             return JsonResponse({"error": "Invalid JSON"}, status=400)
 
-    return JsonResponse({"error": "Invalid request method"}, status=405)
+#     return JsonResponse({"error": "Invalid request method"}, status=405)
         
 
 # Save referral emails to database
@@ -137,6 +137,23 @@ def upload_referral(request):
             return JsonResponse({"error": str(err)}, status=500)
     return JsonResponse({"error": "POST only"}, status=405)  # Add this line
 
+@csrf_protect
+def upload_sharedemail(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            ref_email = data["email"]
+
+            # Debug print to see what you're getting
+            print(f"Received email: {ref_email}")
+
+            # save email to database Referrals table
+            SharedEmail.objects.create(email=ref_email)     
+
+            return JsonResponse({"message": "Shared email saved successfully!"}) 
+        except Exception as err:
+            return JsonResponse({"error": str(err)}, status=500)
+    return JsonResponse({"error": "POST only"}, status=405)  # Add this line
 
 # Save loan calculation to database
 @csrf_protect

@@ -55,7 +55,7 @@ def calculateSimpleResults(gradDate, loanRange: LoanRangeEnum):
     }.get(loanRange.value, 0) #Default to 0 if something goes wrong
 
     # Estimate yearly loan takeout across 4 years
-    loanAmtPerYear = loanAmt / 4
+    loanAmtPerYear = loanAmt / 20
 
     # Estimate date dispursement
     gradYear = gradDate.year
