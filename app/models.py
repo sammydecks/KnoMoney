@@ -17,7 +17,7 @@ class LoanCalculation(models.Model):
     submit_time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"{str(self.loancalculation_id)}: {self.submit_time.strftime("%m-%d-%Y %H:%M:%S")}"
+        return f"{self.loancalculation_id}: {self.submit_time.strftime("%m-%d-%Y %H:%M:%S")}"
 
 class IndividualLoan(models.Model):
     loan_id = models.AutoField(primary_key=True, serialize=True)
