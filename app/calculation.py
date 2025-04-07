@@ -360,7 +360,7 @@ def calculateWhatIf(gradDate, loans, payment):
                     prop = loans.loc[l]['principal'] / totalUnsubsidizedPrincipal
 
                     # use proportion to subtract portion of extra payment from unsubidized balance (ASSUMPTION: assuming that balance will not hit a negative number - respectfully I'm not sure how to do the math for that)
-                    loans.at[l, 'balance'] = float(loans.at[l, 'balance']) - prop * extraPayment
+                    loans.at[l, 'balance'] = float(float(loans.at[l, 'balance']) - prop * extraPayment)
                     if (loans.loc[l]['balance'] < 0):
                         loans.at[l, 'balance'] = float(0)
     # else payment = monthlyPay -> this means that the balance that monthly pay is calculated off on = original principal

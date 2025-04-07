@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// CALCULATOR SUBMIT
 // listener for calculate submit button
 document.getElementById("loanForm").addEventListener("submit", async function(event) {
     event.preventDefault();  // Prevent default form submission
@@ -102,10 +103,6 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
             },
             body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
         });
-
-        //if there is an error with request, throw error
-        if (!response.ok) throw new Error("Failed to fetch interest calculation");
-        
         // parses response body as JSON
         const data = await response.json();
 
@@ -135,6 +132,56 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
         // Scroll to the results section every time
         resultsContainer.scrollIntoView({ behavior: "smooth", block: "start" });
 
+    }
+    catch (error) {
+        console.error("Error in Calculating Interest:", error);
+    }
+});
+
+
+// CALCULATIONS UPLOAD
+document.getElementById("loanForm").addEventListener("submit", async function(event) {
+    event.preventDefault();  // Prevent default form submission
+    const resultsContainer = document.getElementById("resultContainer");
+
+    // save graduation date from input field
+    const gradDate = document.getElementById("graduationDate2").value;
+
+    // save each loan information into an array
+    loans = [] 
+    // select all fieldsets in loan container and loop through each loan
+    document.querySelectorAll(".loanEntry").forEach((loanEntry, index) => {
+        const balance = loanEntry.querySelector('input[name="balance[]"]').value;
+        const interest = loanEntry.querySelector('input[name="interest[]"]').value;
+        const type = loanEntry.querySelector('select[name="type[]"]').value;
+        const received = loanEntry.querySelector('select[name="semester[]"]').value;
+
+        // create JSON object and add to loans
+        loans.push({
+            loanNum: index + 1,
+            principal: parseFloat(balance),
+            interest: parseFloat(interest),
+            type: type,
+            semReceived: received
+        })
+    });
+
+    //Call Python function with API request
+    try {
+        // Fetch CSRF token and include in request
+        const csrfToken = getCSRFToken();
+        const response = await fetch("/upload_calculation/", {
+            //HTTP request settings to send data to the backend as JSON
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+            },
+            body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
+        });
+
+        //if there is an error with request, throw error
+        // if (!response.ok) throw new Error("Failed to save interest calculation");
     }
     catch (error) {
         console.error("Error in Calculating Interest:", error);
