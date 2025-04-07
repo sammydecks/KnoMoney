@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db import models
-from .models import Referral
+from .models import Referral, LoanCalculation, IndividualLoan
 import pandas as pd
 import json
 from .calculation import calculateResults, calculateWhatIf, getInterestRate
@@ -118,7 +118,7 @@ def track_action(request):
     return JsonResponse({"error": "Invalid request method"}, status=405)
         
 
-# creating forms to save emails to database
+# Save referral emails to database
 @csrf_protect
 def upload_referral(request):
     if request.method == "POST":
@@ -128,9 +128,36 @@ def upload_referral(request):
 
             # save email to database Referrals table
             Referral.objects.create(email=ref_email)     
-            
+
             return JsonResponse({"message": "Referral email saved successfully!"}) 
             # return render(request, "home.html", {"message": "Referral email saved successfully!"})
         except Exception as err:
             return JsonResponse({"error": str(err)}, status=500)
     return JsonResponse({"error": "POST only"}, status=405)  # Add this line
+
+
+# Save loan calculation to database
+@csrf_protect
+def upload_calculation(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
+            grad_date = pd.to_datetime(data["gradDate"])
+            loans = data["loans"]
+
+            # loan calculation to loan calculation table
+            loan_calc = LoanCalculation.objects.create(expected_grad_date=grad_date)     
+            # save each individual loan to individual loan table
+            for loan in loans:
+                IndividualLoan.objects.create(
+                    loancalculation=loan_calc,
+                    loan_num=loan["loanNum"],
+                    principal=loan["principal"],
+                    interest=loan["interest"],
+                    loan_type=loan["type"],
+                    sem_received=loan["semReceived"]
+                )
+            return JsonResponse({"message": "Loan calculation saved successfully!"}) 
+        except Exception as err:
+            return JsonResponse({"error": str(err)}, status=500)
+    return JsonResponse({"error": "POST only"}, status=405)

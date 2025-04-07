@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import calculate_interest, calculate_whatif, calculate_savings_simple, track_action, get_interestrate, upload_referral
+from .views import calculate_interest, calculate_whatif, calculate_savings_simple, track_action, get_interestrate, upload_referral, upload_calculation
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -18,4 +18,5 @@ urlpatterns = [
     path("track-action/", track_action, name="track-action"),
 
     path("upload_referral/", upload_referral, name="upload_referral"),
+    path("upload_calculation/", upload_calculation, name="upload_calculation"),
 ]
