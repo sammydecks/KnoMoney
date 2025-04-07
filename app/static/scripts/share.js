@@ -12,11 +12,25 @@ const sendTrackingData = (action) => {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Share via email
-    document.getElementById("emailButton").addEventListener("click", function() {
-        let savingsAmount = document.querySelector(".savingsAmt").innerText; 
-        let emailSubject = "Potential Student Loan Savings";
+    document.getElementById("emailButton").addEventListener("click", function(event) {
+        // Prevent default behavior to handle the click
+        event.preventDefault();
         
+        // Get the savings amount (this assumes you have the savings amount in a class called 'savingsAmt')
+        let savingsAmount = document.querySelector(".savingsAmt").innerText; 
+        
+        // Recipient email from the input field
+        let recipientEmail = document.getElementById("shareEmail").value;  // Assuming 'shareEmail' is the input ID
+        
+        // Check if email is provided
+        if (!recipientEmail) {
+            console.warn("Recipient email is required");
+            alert("Please provide a recipient email address.");
+            return;
+        }
+    
+        // Email subject and body content
+        let emailSubject = "Potential Student Loan Savings";
         let emailBody = 
             "Hi,\n\n" +
             "I wanted to share some important information about saving money on student loans.\n\n" +
@@ -29,9 +43,14 @@ document.addEventListener("DOMContentLoaded", function () {
             "Additional resources:\n" +
             "- FAQ: https://www.knomoney.com/faqs/\n";
     
-        let mailtoLink = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-        
+        // Construct the mailto link
+        let mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+        // Update the href of the button to the mailto link
         this.setAttribute("href", mailtoLink);
+    
+        // Trigger the mailto link (opens the default email client)
+        window.location.href = mailtoLink;
 
         // POST
         sendTrackingData("email_share");

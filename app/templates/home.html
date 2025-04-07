@@ -8,7 +8,7 @@
         We are making student loans as easy as possible, while saving you the most money possible.
     </p>
 </div>
-<form id="expectedDebt" class="was-validated">
+<form id="expectedDebt">
     <div id="graduation" class="container">
         <label for="graduation" class="lead form-label">Expected Graduation Date (month/year):</label>
         <input id="graduationDate" class="form-control mb-4" type="month" name="graduation" value="2025-05" required>
@@ -44,10 +44,13 @@
                     </p>
                 </div>
                 <p>Share this savings information with your parents, family, or save for later reference.</p>
-                <a id="emailButton" class="btn btn-outline-success" href="#">Share via Email</a>
-                <button type="button" id="copyButton" class="btn btn-success" title="Copy to clipboard">
-                    <i id="copyIcon" class="bi bi-clipboard"></i>
-                </button>
+                <div class="input-group mb-1">
+                    <input type="email" id="shareEmail" class="form-control" name="shareEmail" placeholder="Email">
+                    <a id="emailButton" class="btn btn-success me-2" href="#">Share via Email</a>
+                    <button type="button" id="copyButton" class="btn btn-success" title="Copy to clipboard">
+                        <i id="copyIcon" class="bi bi-clipboard"></i>
+                    </button>
+                </div>
             </div>          
         </div>
     </div>
