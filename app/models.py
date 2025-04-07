@@ -30,7 +30,3 @@ class IndividualLoan(models.Model):
 
     def __str__(self):
         return f"Calculation {self.loancalculation_id}: Loan {self.loan_id} - Amount: {self.principal}"
-
-# Example model?
-class MyModel(models.Model):
-    name = models.CharField(max_length=255)
