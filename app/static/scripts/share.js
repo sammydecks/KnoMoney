@@ -1,16 +1,3 @@
-// const sendTrackingData = (action) => {
-//     fetch("/track-action/", {  // Adjust URL if needed
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ action }),
-//     }).then(response => response.json())
-//       .then(data => console.log("Tracking Response:", data))
-//       .catch(error => console.error("Error tracking action:", error));
-// };
-
-
 // Save Shared Emails
 document.addEventListener("DOMContentLoaded", function () {
     // send button next to "share with a friend" input
@@ -81,13 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         // Trigger the mailto link (opens the default email client)
         window.location.href = mailtoLink;
-
-        // POST
-        // sendTrackingData("email_share");
     });
-    
-    
-
     
 
     document.getElementById("copyButton").addEventListener("click", function() {
@@ -109,8 +90,5 @@ document.addEventListener("DOMContentLoaded", function () {
                 this.setAttribute("title", "Copy to clipboard");
             }, 3000);
         });
-
-        // POST
-        sendTrackingData("copy_to_clipboard");
     });
 });

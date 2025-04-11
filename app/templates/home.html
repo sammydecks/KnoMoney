@@ -22,17 +22,15 @@
                 <input type="submit" class="btn btn-success btn-lg" name="debtRange" value="~ $30K"></input>
                 <input type="submit" class="btn btn-success btn-lg" name="debtRange" value="~ $40K"></input>
             </div>
-            <div id="saveContainer" class="col-md-6 m-auto border border-dark pt-3 pb-2 mt-3 d-none">
-                <div id="share">
-                    <div class="position-relative">
-                        <button type="button" class="btn btn-outline-success btn-sm position-absolute top-0 end-0"
-                            data-bs-toggle="popover" 
-                            data-bs-placement="top"
-                            data-bs-title="Potential Savings Calculation" 
-                            data-bs-content="We estimate potential savings by comparing the selected loan balance range with and without capitalized interest. We assume loans are disbursed over four years prior to your graduation date, accruing interest at historical federal student loan rates. By making early payments prior to graduating, you can reduce the total interest added to your loan (capitalized), lowering overall repayment costs. For more information, check out the FAQ page from the menu in the top left of your screen.">
-                            <i class="bi bi-question-circle-fill"></i>
-                        </button>
-                    </div>
+            <div id="saveContainer" class="col-md-6 m-auto border border-dark p-3 mt-3 d-none">
+                <div id="share" class="position-relative" style="padding-top: 2rem;">
+                    <button type="button" class="btn p-0 border-0 bg-transparent position-absolute top-0 end-0"
+                        data-bs-toggle="popover" 
+                        data-bs-placement="top"
+                        data-bs-title="Potential Savings Calculation" 
+                        data-bs-content="We estimate potential savings by comparing the selected loan balance range with and without capitalized interest. We assume loans are disbursed over four years prior to your graduation date, accruing interest at historical federal student loan rates. By making early payments prior to graduating, you can reduce the total interest added to your loan (capitalized), lowering overall repayment costs. For more information, check out the FAQ page from the menu in the top left of your screen.">
+                        <i class="bi bi-question-circle-fill fs-3 text-success"></i>
+                    </button>
                     <p class="fs-5">Based on your selected loan range, you have potential to save</p>
                     <p class="savingsAmt fw-bold fs-4"></p>
                     <p>
@@ -80,7 +78,7 @@
                     </div>
                     <div id="type" class="col-12 col-md">
                         <label for="type" class="form-label">Loan Type</label>
-                        <button type="button" class="btn btn-outline-success btn-sm ms-1"
+                        <button type="button" class="btn p-0 border-0 bg-transparent ms-1"
                             data-bs-toggle="popover" 
                             data-bs-placement="top"
                             data-bs-title="Unsubsidized vs Subsidized?" 
@@ -90,7 +88,7 @@
                                 the interest for subsidized loans while in school plus 6 months after graduation.
                                 You can check which type you have by logging into studentaid.gov or reviewing 
                                 your financial aid award letter.">
-                            <i class="bi bi-question-circle-fill"></i>
+                            <i class="bi bi-question-circle-fill fs-5 text-success"></i>
                         </button>
                         <select name="type[]" class="form-select" required>
                             <option value="" disabled selected>-- select --</option>
@@ -100,11 +98,23 @@
                     </div>
                     <div id="balance" class="col-12 col-md">
                         <label for="balance" class="form-label">Balance ($): </label>
-                        <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" required>
+                        <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" inputmode="decimal" required>
                     </div>
                     <div id="interest" class="col-12 col-md">
                         <label for="interest" class="form-label">Interest Rate: </label>
-                        <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" readonly>
+                        <button type="button" 
+                            class="btn p-0 border-0 bg-transparent ms-1" 
+                            data-bs-toggle="popover" 
+                            data-bs-placement="top"
+                            data-bs-title="Auto-filled Interest Rate" 
+                            data-bs-content="We automatically populate this interest rate based on historical 
+                                            federal student loan rates for the semester you selected. Federal 
+                                            loans have fixed interest rates that vary depending on the year they were 
+                                            disbursed. If your loan has a different rate, feel free to update 
+                                            this value to match your specific loan.">
+                            <i class="bi bi-question-circle-fill fs-5 text-success"></i>
+                        </button>
+                        <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" step="0.001" min="0.01" max="0.99" inputmode="decimal" required>
                     </div>
                 </div>
             </fieldset>
