@@ -156,6 +156,13 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
         // Scroll to the results section every time
         resultsContainer.scrollIntoView({ behavior: "smooth", block: "start" });
 
+        confetti({
+            particleCount: 150,
+            spread: 120,
+            colors: ['#C7E9C0', '#005A32', '#74C478'],
+            origin: { y: 0.8 },
+          });
+
     }
     catch (error) {
         console.error("Error in Calculating Interest:", error);
