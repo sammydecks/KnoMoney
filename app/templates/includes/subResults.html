@@ -2,11 +2,14 @@
     <fieldset class="container">
         <div class="text-center d-none">
             <hr class="my-4">
-            <h2 class="mb-3 text-success">RESULTS</h2>
+            <h1 class="mb-2 text-success">RESULTS</h1>
             <p class="fs-5">Looks like you only have subsidizied loans. Lucky! This means you have no interest accruing while in school.</p>
             <p class="fs-5 fw-bold">Your total loan balance when you graduate is:</p>
-            <p id="totalBalance"></p>
-            <p class="fs-5">Interest will begin accruing on this balance 6 months after you graduate. But what if you get a head start on your payments now?</p>
+            <span id="totalLoansSub" class="text-results"></span>
+
+            <br> <br>
+            <p class="fs-5">Interest will begin accruing on this balance 6 months after you graduate.</p>
+            <h4 class="fs-3 text-success">But what if you get a head start on your payments now?</h4>
             {% include 'includes/whatIf.html' %}
         </div>
     </fieldset>

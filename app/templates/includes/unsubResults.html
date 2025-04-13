@@ -3,13 +3,18 @@
     <fieldset class="container">
         <div class="text-center d-none">
             <hr class="my-4"> 
-            <h2 class="mb-3 text-success">RESULTS</h2>
+            <h1 class="mb-2 text-success">RESULTS</h1>
             <p class="fs-5">Looks like you have some unsubsidized loans. This means you are accruing interest while in school.</p>
-            <p class="fs-5 fw-bold">You took out $
-                <span id="totalBalance" class="d-inline"></span> in loans. But 6 months after you graduate, your new balance will be $
-                <span id="balancePlusInterest" class="d-inline"></span> from your accurued interest being added.
+            <p class="fs-5">You took out 
+                <span id="totalLoans" class="text-results"></span>
+                <span id="totalBalance" class="d-inline"></span> in loans. <br> 
+                By the time your payments begin (~6 months after graduation), your balance will have grown to  </span>
+                <span id="totalCapLoans" class="text-results"></span>
+                <span id="balancePlusInterest" class="d-inline"></span> because of the interest that built up during school.
             </p>
-            <p class="fs-5">But what if you get a head start on your payments now?</p>
+            
+            <br> <br>
+            <h4 class="fs-3 text-success">But what if you get a head start on your payments now?</h4>
             {% include 'includes/whatIf.html' %}
         </div>
     </fieldset>

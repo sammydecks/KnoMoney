@@ -66,4 +66,10 @@ body {
   color: var(--muted-color) !important;
 }
 
+.text-results {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--primary-color) !important;
+}
+
 /*# sourceMappingURL=main.css.map */

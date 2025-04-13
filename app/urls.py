@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import calculate_interest, calculate_whatif, calculate_savings_simple, get_interestrate, upload_emaillist, upload_simplecalc, upload_calculation, upload_sharedemail
+from .views import calculate_interest, calculate_whatif, calculate_savings_simple, get_interestrate, upload_emaillist, upload_simplecalc, upload_calculation, upload_sharedemail, calculate_sum_loans, calculate_sum_cap_loans
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -14,6 +14,8 @@ urlpatterns = [
     path("calculate_whatif", calculate_whatif, name="calculate_whatif"),
     path("calculate_savings_simple", calculate_savings_simple, name="calculate_savings_simple"),
     path("get_interestrate", get_interestrate, name="get_interestrate"),
+    path("calculate_sum_loans", calculate_sum_loans, name="calculate_sum_loans"),
+    path("calculate_sum_cap_loans", calculate_sum_cap_loans, name="calculate_sum_cap_loans"),
 
     path("upload_emaillist/", upload_emaillist, name="upload_emaillist"),
     path("upload_sharedemail/", upload_sharedemail, name="upload_sharedemail"),

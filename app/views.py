@@ -68,6 +68,7 @@ def calculate_sum_loans(request):
             loans_df = pd.DataFrame(data["loans"])  # Convert JSON to pandas DataFrame
             # call initial function of calculating results
             results = calcSumLoans(loans_df)
+            results = f"${results:,}"
             return JsonResponse({"total": results})
 
         except Exception as err:
@@ -81,7 +82,8 @@ def calculate_sum_cap_loans(request):
             gradDate = pd.to_datetime(data["gradDate"])
             loans_df = pd.DataFrame(data["loans"])  # Convert JSON to pandas DataFrame
             # call initial function of calculating results
-            results = calcSumCapLoans(loans_df)
+            results = calcSumCapLoans(gradDate, loans_df)
+            results = f"${results:,}"
             return JsonResponse({"total": results})
 
         except Exception as err:

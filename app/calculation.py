@@ -76,7 +76,7 @@ def calcSumLoans(loans):
     # calculate the sum of all loans
     total = loans['principal'].sum()
     
-    return total
+    return float(total)
 
 # calculate sum of loans when interest is capitalized
 def calcSumCapLoans(gradDate, loans):
@@ -110,10 +110,10 @@ def calcSumCapLoans(gradDate, loans):
             # calculate the total interest accrue
             # equation: interest = principle * (interest rate) / 365 * days
             interest = loans.loc[l]['principal'] * (loans.loc[l]['interest']/100)/365 * days
-        
+            print(interest)
             # add the interest to the total interest paid
             total += interest
-    return total
+    return round(total, 2)
 
 
 
