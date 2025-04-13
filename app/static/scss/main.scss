@@ -1,0 +1,32 @@
+:root {
+    --primary-color: #1a936f;
+    --secondary-color: #114b5f;
+    --accent-color: #88d498;
+    --muted-color: #aaaaaa;
+    --font-primary: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--secondary-color);
+}
+
+.btn-success, .text-success {
+    background-color: #1a936f !important;
+    color: white !important;
+    border-color: #1a936f !important;
+}
+
+.btn-outline-success {
+    color: #1a936f !important;
+    border-color: #1a936f !important;
+}
+
+.btn-outline-success:hover {
+    background-color: #1a936f !important;
+    color: white !important;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}

@@ -17,7 +17,7 @@ KnoMoney empowers college students to take control of their finances by understa
 # Tech Stack
 
 - **Backend:** Django
-- **Frontend:** Bootstrap
+- **Frontend:** Bootstrap, SASS
 - **Database:** PostgreSQL & Amazon AWS
 - **APIs:** N/A
 
@@ -88,6 +88,11 @@ Test: `python3 manage.py dbshell`
 ### CRUD Operations
 
 - https://docs.djangoproject.com/en/5.1/topics/db/models/
+
+## Front End Documentation
+### Editing the SASS file
+- After editing any `.scss` file in the `app\static\scss` directory, make sure to basically compile the file into a css so the `base.html` page can use this.
+- Ex. ```npx sass app/static/scss/main.scss app/static/css/main.css```
 
 ## Install Dependencies
 
