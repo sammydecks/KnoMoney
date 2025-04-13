@@ -133,9 +133,9 @@ def getInterestRate(semester):
         year += 1
     
     # save the interest by using the year as the key
-    interest = intRates.get(year, 0.0653) #default to 2024-25 interest rate (6.53%) for all future years
+    interest = round(intRates.get(year, 0.0653)*100,2) #default to 2024-25 interest rate (6.53%) for all future years
 
-    # return interest finally
+    # return interest finally (in %)
     return interest
 
 
