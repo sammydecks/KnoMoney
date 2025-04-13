@@ -52,6 +52,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 element.textContent = totalSaved;
             }
             // savingsAmt.innerHTML = totalSaved;
+
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                colors: ['#C7E9C0', '#005A32', '#74C478'],
+                origin: { x: 0.65, y: 0.8 },
+              });
         }
         catch (error) {
             console.error("Error in Calculating Potential Savings:", error);

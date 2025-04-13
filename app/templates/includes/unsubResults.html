@@ -1,0 +1,14 @@
+<div id="unsubResultsContainer" class="mb-3">
+    <fieldset class="container">
+        <div class="border border-dark p-3 mt-3 text-center d-none">
+            <h2 class="mb-3">RESULTS</h2>
+            <p class="fs-5">Looks like you have some unsubsidized loans. This means you are accruing interest while in school.</p>
+            <p class="fs-5 fw-bold">You took out $
+                <span id="totalBalance" class="d-inline"></span> in loans. But 6 months after you graduate, your new balance will be $
+                <span id="balancePlusInterest" class="d-inline"></span> from your accurued interest being added.
+            </p>
+            <p class="fs-5">But what if you get a head start on your payments now?</p>
+            {% include 'includes/whatIf.html' %}
+        </div>
+    </fieldset>
+</div>

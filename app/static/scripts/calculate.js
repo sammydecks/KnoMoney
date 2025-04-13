@@ -13,6 +13,12 @@ function getCSRFToken() {
         ?.split('=')[1];
 }
 
+// displaying results based on unsubsidized vs subsidized
+function toggleResults(showId, hideId) {
+    document.querySelector(`#${showId} fieldset > div`).classList.remove("d-none");
+    document.querySelector(`#${hideId} fieldset > div`).classList.add("d-none");
+}
+
 // listener for inputting corresponding interest rate for semester
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("loanContainer").addEventListener("change", async function(event) {
@@ -65,19 +71,26 @@ document.addEventListener("DOMContentLoaded", function () {
 // listener for calculate submit button
 document.getElementById("loanForm").addEventListener("submit", async function(event) {
     event.preventDefault();  // Prevent default form submission
-    const resultsContainer = document.getElementById("resultContainer");
+    let resultsContainer;
 
     // save graduation date from input field
     const gradDate = document.getElementById("graduationDate2").value;
 
     // save each loan information into an array
     loans = [] 
+    // track unsubsidized vs subsidized loans
+    let hasUnsub = false;
     // select all fieldsets in loan container and loop through each loan
     document.querySelectorAll(".loanEntry").forEach((loanEntry, index) => {
         const balance = loanEntry.querySelector('input[name="balance[]"]').value;
         const interest = loanEntry.querySelector('input[name="interest[]"]').value;
         const type = loanEntry.querySelector('select[name="type[]"]').value;
         const received = loanEntry.querySelector('select[name="semester[]"]').value;
+
+        // found unsub loan, show corresponding result
+        if (type === "unsubsidized") {
+            hasUnsub = true;
+        }
 
         // create JSON object and add to loans
         loans.push({
@@ -91,46 +104,64 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
 
     //Call Python function with API request
     try {
-        // Fetch CSRF token and include in request
-        const csrfToken = getCSRFToken();
-        // frontend calls server endpoint with url calculate_interest
-        const response = await fetch("/calculate_interest", {
-            //HTTP request settings to send data to the backend as JSON
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": csrfToken  // Include CSRF token in request headers
-            },
-            body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
-        });
-        // parses response body as JSON
-        const data = await response.json();
+        // // Fetch CSRF token and include in request
+        // const csrfToken = getCSRFToken();
+        // // frontend calls server endpoint with url calculate_interest
+        // const response = await fetch("/calculate_interest", {
+        //     //HTTP request settings to send data to the backend as JSON
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+        //     },
+        //     body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
+        // });
+        // // parses response body as JSON
+        // const data = await response.json();
 
-        //extracts value in totalInterest key
-        const totalInterest = data.totalInterest;
-        const totalSaved = data.totalSaved;
-        const monthlyPay = data.monthlyPay;
-        const savedGracePeriod = data.savedGracePeriod;
-        const savedAllYears = data.savedAllYears;
+        // //extracts value in totalInterest key
+        // const totalInterest = data.totalInterest;
+        // const totalSaved = data.totalSaved;
+        // const monthlyPay = data.monthlyPay;
+        // const savedGracePeriod = data.savedGracePeriod;
+        // const savedAllYears = data.savedAllYears;
 
-        // Location to fill in totalInterest value
-        let totalInterestField = document.getElementById("totalInterest");
-        totalInterestField.innerHTML = totalInterest;
-        let totalSavedField = document.getElementById("potentialSavings");
-        totalSavedField.innerHTML = totalSaved;
-        let monthlyPayField = document.getElementById("monthlyPayment");
-        monthlyPayField.innerHTML = monthlyPay;
-        let savedGracePeriodField = document.getElementById("whatIfPaid");
-        savedGracePeriodField.innerHTML = savedGracePeriod;
-        let savedAllYearsField = document.getElementById("whatIfSaved");
-        savedAllYearsField.innerHTML = savedAllYears;
+        // // Location to fill in totalInterest value
+        // let totalInterestField = document.getElementById("totalInterest");
+        // totalInterestField.innerHTML = totalInterest;
+        // let totalSavedField = document.getElementById("potentialSavings");
+        // totalSavedField.innerHTML = totalSaved;
+        // let monthlyPayField = document.getElementById("monthlyPayment");
+        // monthlyPayField.innerHTML = monthlyPay;
+        // let savedGracePeriodField = document.getElementById("whatIfPaid");
+        // savedGracePeriodField.innerHTML = savedGracePeriod;
+        // let savedAllYearsField = document.getElementById("whatIfSaved");
+        // savedAllYearsField.innerHTML = savedAllYears;
 
         // Make results and recommendations containers visible
-        document.querySelector("#resultContainer .d-none")?.classList.remove("d-none");
-        document.querySelector("#recommendationsContainer .d-none")?.classList.remove("d-none");
+        // document.querySelector("#resultContainer .d-none")?.classList.remove("d-none");
+        // document.querySelector("#recommendationsContainer .d-none")?.classList.remove("d-none");
+
+        const subResultsContent = document.querySelector("#subResultsContainer fieldset > div");
+        const unsubResultsContent = document.querySelector("#unsubResultsContainer fieldset > div");
+
+        if (hasUnsub) {
+            toggleResults("unsubResultsContainer", "subResultsContainer");
+            resultsContainer = document.getElementById("unsubResultsContainer");
+        } else {
+            toggleResults("subResultsContainer", "unsubResultsContainer");
+            resultsContainer = document.getElementById("subResultsContainer");
+        }
 
         // Scroll to the results section every time
         resultsContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        confetti({
+            particleCount: 150,
+            spread: 120,
+            colors: ['#C7E9C0', '#005A32', '#74C478'],
+            origin: { y: 0.8 },
+          });
 
     }
     catch (error) {
