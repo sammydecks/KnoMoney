@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db import models
-from .models import Referral, LoanCalculation, IndividualLoan, SharedEmail
+from .models import EmailList, LoanCalculation, IndividualLoan, SharedEmail, SimpleCalculation
 import pandas as pd
 import json
-from .calculation import calculateResults, calculateWhatIf, getInterestRate
+from .calculation import calculateResults, calculateWhatIf, getInterestRate, calcSumLoans, calcSumCapLoans
 from .simplecalc import calculateSimpleResults
 from django.views.decorators.csrf import csrf_protect
 # only for TEMP share POST
@@ -58,7 +58,35 @@ def calculate_interest(request):
 
         except Exception as err:
             return JsonResponse({"Error:", err}, safe=False, status=500)
-        
+
+
+@csrf_protect
+def calculate_sum_loans(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
+            loans_df = pd.DataFrame(data["loans"])  # Convert JSON to pandas DataFrame
+            # call initial function of calculating results
+            results = calcSumLoans(loans_df)
+            return JsonResponse({"total": results})
+
+        except Exception as err:
+            return JsonResponse({"Error:", err}, safe=False, status=500)
+
+@csrf_protect
+def calculate_sum_cap_loans(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
+            gradDate = pd.to_datetime(data["gradDate"])
+            loans_df = pd.DataFrame(data["loans"])  # Convert JSON to pandas DataFrame
+            # call initial function of calculating results
+            results = calcSumCapLoans(loans_df)
+            return JsonResponse({"total": results})
+
+        except Exception as err:
+            return JsonResponse({"Error:", err}, safe=False, status=500)
+
 
 @csrf_protect
 def calculate_whatif(request):
@@ -100,9 +128,9 @@ def calculate_savings_simple(request):
         except Exception as err:
             return JsonResponse({"Error:", err}, safe=False, status=500)
 
-# Save referral emails to database
+# Save emails to database for mailing list
 @csrf_protect
-def upload_referral(request):
+def upload_emaillist(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
@@ -111,10 +139,10 @@ def upload_referral(request):
             # Debug print to see what you're getting
             print(f"Received email: {ref_email}")
 
-            # save email to database Referrals table
-            Referral.objects.create(email=ref_email)     
+            # save email to database EmailList table
+            EmailList.objects.create(email=ref_email)     
 
-            return JsonResponse({"message": "Referral email saved successfully!"}) 
+            return JsonResponse({"message": "Email saved successfully!"}) 
         except Exception as err:
             return JsonResponse({"error": str(err)}, status=500)
     return JsonResponse({"error": "POST only"}, status=405)  # Add this line
@@ -129,7 +157,7 @@ def upload_sharedemail(request):
             # Debug print to see what you're getting
             print(f"Received email: {ref_email}")
 
-            # save email to database Referrals table
+            # save email to database SharedEmails table
             SharedEmail.objects.create(email=ref_email)     
 
             return JsonResponse({"message": "Shared email saved successfully!"}) 
@@ -159,6 +187,26 @@ def upload_calculation(request):
                     sem_received=loan["semReceived"]
                 )
             return JsonResponse({"message": "Loan calculation saved successfully!"}) 
+        except Exception as err:
+            return JsonResponse({"error": str(err)}, status=500)
+    return JsonResponse({"error": "POST only"}, status=405)
+
+
+# Save simple calculations made
+@csrf_protect
+def upload_simplecalc(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # Get JSON data from the frontend and turn to Python dictionary
+            grad_date = pd.to_datetime(data["gradDate"])
+            loan_range = data["selectedDebtRange"]
+
+            # save simple calculation to database
+            SimpleCalculation.objects.create(
+                expected_grad_date=grad_date,
+                loan_amount=loan_range
+            )     
+            return JsonResponse({"message": "Simple calculation saved successfully!"}) 
         except Exception as err:
             return JsonResponse({"error": str(err)}, status=500)
     return JsonResponse({"error": "POST only"}, status=405)

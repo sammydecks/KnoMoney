@@ -2,8 +2,8 @@ from django.db import models
 from django.utils import timezone
 
 # Create your models here
-class Referral(models.Model):
-    referral_id = models.AutoField(primary_key=True, serialize=True)
+class EmailList(models.Model):
+    emaillist_id = models.AutoField(primary_key=True, serialize=True)
     email = models.EmailField(max_length=255)
     submit_time = models.DateTimeField(default=timezone.now)
 
@@ -19,6 +19,16 @@ class SharedEmail(models.Model):
     def __str__(self):
         return f"Email: {self.email} - {self.submit_time.strftime('%m-%d-%Y %H:%M:%S')}"
 
+class SimpleCalculation(models.Model):
+    simplecalculation_id = models.AutoField(primary_key=True, serialize=True)
+    expected_grad_date = models.DateTimeField(null=False)
+    loan_amount = models.CharField(max_length=100)
+    submit_time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{str(self.simplecalculation_id)}: Amount: {self.loan_amount} - {self.submit_time.strftime('%m-%d-%Y %H:%M:%S')}"
+
+
 
 class LoanCalculation(models.Model):
     loancalculation_id = models.AutoField(primary_key=True, serialize=True)
@@ -26,7 +36,7 @@ class LoanCalculation(models.Model):
     submit_time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"{str(self.loancalculation_id)}: {self.submit_time.strftime('%m-%d-%Y %H:%M:%S')}"
+        return f"{self.loancalculation_id}: {self.submit_time.strftime('%m-%d-%Y %H:%M:%S')}"
 
 
 class IndividualLoan(models.Model):

@@ -57,7 +57,68 @@ def calculateResults(gradDate, loans):
     return results
 
 
+# return sum of loans
+def calcSumLoans(loans):
+    '''
+    Parameters:
+    ----------
+    loans (pd df): 
+        [loanNum: int,
+        principal: float,
+        interest: float,
+        type: enum (subsidized, unsubsidized),
+        semReceived: string]  
+    Return:
+    ------
+    total (float): total amount of all loans
+    '''
+    
+    # calculate the sum of all loans
+    total = loans['principal'].sum()
+    
+    return total
 
+# calculate sum of loans when interest is capitalized
+def calcSumCapLoans(gradDate, loans):
+    '''
+    Parameters:
+    ----------
+    gradDate (datetime): graduation date
+    loans (pd df): 
+        [loanNum: int,
+        principal: float,
+        interest: float,
+        type: enum (subsidized, unsubsidized),
+        semReceived: string]  
+    Return:
+    ------
+    total (float): total amount of all loans
+    '''
+    if ('dateReceived' not in loans):
+        loans = semesterToDate(loans)
+
+
+    # calculate the sum of all loans
+    total = loans['principal'].sum()
+
+    # loop through all of the loans and add interest to total
+    for l in range(len(loans)):
+        if loans.loc[l]['type'] == "unsubsidized":
+            # calculate the number of days that have passed from date received to end of grace period(unsubsidized accrues daily) 
+            days = (gradDate - pd.to_datetime(loans.loc[l]['dateReceived'])).days + 180 
+            
+            # calculate the total interest accrue
+            # equation: interest = principle * (interest rate) / 365 * days
+            interest = loans.loc[l]['principal'] * (loans.loc[l]['interest']/100)/365 * days
+        
+            # add the interest to the total interest paid
+            total += interest
+    return total
+
+
+
+
+# NOTE: THE FOLLOWING IS BASICALLY SCRAPPED FOR THE MOST PART FOR THIS NEW VERSION OF RESULTS AND RECOMMENDATIONS
 def calculateInterest(gradDate, loans):
     '''
     Parameters:

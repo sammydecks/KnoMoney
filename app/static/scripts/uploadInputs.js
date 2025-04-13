@@ -5,7 +5,7 @@ function getCSRFToken() {
         ?.split('=')[1];
 }
 
-// Save Referral Emails
+// Save Emails
 document.addEventListener("DOMContentLoaded", function () {
     // send button next to "share with a friend" input
     document.getElementById("sendEmail").addEventListener("click", async function(event) {
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const csrfToken = getCSRFToken();
     
-            const response = await fetch("/upload_referral/", {
+            const response = await fetch("/upload_emaillist/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -28,12 +28,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 body: JSON.stringify({email})
             });
     
-            if (!response.ok) throw new Error("Failed to save referral email");
+            if (!response.ok) throw new Error("Failed to save email");
     
             // Success! Now draft email.
-            const subject = encodeURIComponent("Check out KnoMoney!");
-            const body = encodeURIComponent("Hey, I found KnoMoney, a website that helps you learn how you can save money on your student loan interest. I thought you would be a great candidate to check it out: https://www.knomoney.com");
-    
+            const subject = encodeURIComponent("You’re on the KnoMoney Path! 🎓💰");
+            const body = encodeURIComponent(
+                `Hey there!
+
+                You just joined the KnoMoney crew — thanks for being part of a growing community of students learning how to save smarter on student loans. We'll keep you posted with more helpful tools, updates, and tips so you can stay ahead of the game. Until then, you can revisit KnoMoney anytime at: https://www.knomoney.com
+
+                - The KnoMoney Team 💚`
+            );
             window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     
         } catch (error) {

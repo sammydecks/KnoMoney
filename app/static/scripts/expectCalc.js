@@ -66,3 +66,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("expectedDebt").addEventListener("submit", async function (event) {
+        event.preventDefault();
+    
+        // Get the debt range selected
+        let selectedDebtRange = event.submitter?.value;
+        console.log("Selected Debt Range:", selectedDebtRange);
+        // Get the graduation date
+        const gradDate = document.getElementById("graduationDate").value;
+    
+        try {
+            // Fetch CSRF token and include in request
+            const csrfToken = getCSRFToken();
+            // call server endpoint with url calculate_savings_simple
+            const response = await fetch("/upload_simplecalc/", {
+                //HTTP request to send data to backend
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({gradDate, selectedDebtRange})
+            });
+        }
+        catch (error) {
+            console.error("Error in Simple Calculation:", error);
+        }
+    });
+  });

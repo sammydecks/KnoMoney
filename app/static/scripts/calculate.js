@@ -104,20 +104,46 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
 
     //Call Python function with API request
     try {
-        // // Fetch CSRF token and include in request
-        // const csrfToken = getCSRFToken();
-        // // frontend calls server endpoint with url calculate_interest
-        // const response = await fetch("/calculate_interest", {
-        //     //HTTP request settings to send data to the backend as JSON
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "X-CSRFToken": csrfToken  // Include CSRF token in request headers
-        //     },
-        //     body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
-        // });
-        // // parses response body as JSON
-        // const data = await response.json();
+        // Fetch CSRF token and include in request
+        const csrfToken = getCSRFToken();
+
+        // Calculate the sum of all loans (for both sub and unsub types)
+        const response = await fetch("/calculate_sum_loans", {
+            //HTTP request settings to send data to the backend as JSON
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+            },
+            body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
+        });
+        const data = await response.json();
+
+        if (hasUnsub) {
+            response = await fetch("/calculate_sum_cap_loans", {
+                //HTTP request settings to send data to the backend as JSON
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+                },
+                body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
+            });
+            const data2 = await response.json();
+        }
+        
+
+        // calculate "What If" information
+        response = await fetch("/calculate_whatif", {
+            //HTTP request settings to send data to the backend as JSON
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+            },
+            body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
+        });
+        const data3 = await response.json();
 
         // //extracts value in totalInterest key
         // const totalInterest = data.totalInterest;
