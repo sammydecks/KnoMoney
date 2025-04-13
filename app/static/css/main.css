@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Fredoka:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+:root {
+  --primary-color: #1e6b18;
+  --secondary-color: #64a55f;
+  --accent-color: #f3b415;
+  --muted-color: #1e2314;
+  --font-primary: "Rubik", sans-serif;
+  --font-secondary: "Fredoka", sans-serif;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-weight: 500;
+  color: black;
+}
+
+.text-success {
+  font-family: var(--font-secondary);
+  color: var(--primary-color) !important;
+}
+
+/* BUTTON STYLES */
+.btn {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-success {
+  background-color: var(--secondary-color) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-success:hover {
+  background-color: var(--accent-color) !important;
+  color: white !important;
+}
+
+.btn-outline-success {
+  color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+  border-width: 0.15rem !important;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--secondary-color) !important;
+  color: white !important;
+}
+
+.bi-question-circle-fill {
+  color: var(--secondary-color) !important;
+  border: none;
+}
+
+.bi-question-circle-fill:hover {
+  color: var(--primary-color) !important;
+  border: none;
+}
+
+.text-muted {
+  color: var(--muted-color) !important;
+}
+
+.text-results {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--primary-color) !important;
+}
+
+/*# sourceMappingURL=main.css.map */

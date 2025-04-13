@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 body: JSON.stringify({email})
             });
     
-            if (!response.ok) throw new Error("Failed to save referral email");
+            if (!response.ok) throw new Error("Failed to save email");
         } catch (error) {
             console.error("Error in Saving Email", error);
         }

@@ -104,51 +104,79 @@ document.getElementById("loanForm").addEventListener("submit", async function(ev
 
     //Call Python function with API request
     try {
-        // // Fetch CSRF token and include in request
-        // const csrfToken = getCSRFToken();
-        // // frontend calls server endpoint with url calculate_interest
-        // const response = await fetch("/calculate_interest", {
-        //     //HTTP request settings to send data to the backend as JSON
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "X-CSRFToken": csrfToken  // Include CSRF token in request headers
-        //     },
-        //     body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
-        // });
-        // // parses response body as JSON
-        // const data = await response.json();
+        // Fetch CSRF token and include in request
+        const csrfToken = getCSRFToken();
 
-        // //extracts value in totalInterest key
-        // const totalInterest = data.totalInterest;
-        // const totalSaved = data.totalSaved;
-        // const monthlyPay = data.monthlyPay;
-        // const savedGracePeriod = data.savedGracePeriod;
-        // const savedAllYears = data.savedAllYears;
+        // Calculate the sum of all loans (for both sub and unsub types)
+        let response = await fetch("/calculate_sum_loans", {
+            //HTTP request settings to send data to the backend as JSON
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+            },
+            body: JSON.stringify({loans}) //converts JSON object to JSON string
+        });
+        const data = await response.json();
+        let totalLoans = data.total;
+       
+        
+        // calculate "What If" information
+        let customPayment = document.getElementById("customPayment").value;
+        response = await fetch("/calculate_whatif", {
+            //HTTP request settings to send data to the backend as JSON
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+            },
+            body: JSON.stringify({gradDate, loans, customPayment}) //converts JSON object to JSON string
+        });
+        const data2 = await response.json();
+        //extracts value in returned dictionary
+        const savedGracePeriod = data2.savedGracePeriod;
+        const savedAllYears = data2.savedAllYears;
 
-        // // Location to fill in totalInterest value
-        // let totalInterestField = document.getElementById("totalInterest");
-        // totalInterestField.innerHTML = totalInterest;
-        // let totalSavedField = document.getElementById("potentialSavings");
-        // totalSavedField.innerHTML = totalSaved;
-        // let monthlyPayField = document.getElementById("monthlyPayment");
-        // monthlyPayField.innerHTML = monthlyPay;
-        // let savedGracePeriodField = document.getElementById("whatIfPaid");
-        // savedGracePeriodField.innerHTML = savedGracePeriod;
-        // let savedAllYearsField = document.getElementById("whatIfSaved");
-        // savedAllYearsField.innerHTML = savedAllYears;
-
-        // Make results and recommendations containers visible
-        // document.querySelector("#resultContainer .d-none")?.classList.remove("d-none");
-        // document.querySelector("#recommendationsContainer .d-none")?.classList.remove("d-none");
 
         const subResultsContent = document.querySelector("#subResultsContainer fieldset > div");
         const unsubResultsContent = document.querySelector("#unsubResultsContainer fieldset > div");
 
         if (hasUnsub) {
+            response = await fetch("/calculate_sum_cap_loans", {
+                //HTTP request settings to send data to the backend as JSON
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken  // Include CSRF token in request headers
+                },
+                body: JSON.stringify({gradDate, loans}) //converts JSON object to JSON string
+
+            });
+            const data3 = await response.json();
+            let totalCapLoans = data3.total;
+            let totalCapLoansField = document.getElementById("totalCapLoans");
+            totalCapLoansField.innerHTML = totalCapLoans;
+
+            // fill in all other spaces
+            let totalLoansField = document.getElementById("totalLoans");
+            totalLoansField.innerHTML = totalLoans;
+            let savedGracePeriodField = document.getElementById("whatIfPaid");
+            savedGracePeriodField.textContent = savedGracePeriod;
+            let savedAllYearsField = document.getElementById("whatIfSaved");
+            savedAllYearsField.textContent = savedAllYears;
+
+
             toggleResults("unsubResultsContainer", "subResultsContainer");
             resultsContainer = document.getElementById("unsubResultsContainer");
         } else {
+            // fill in all other spaces
+            let totalLoansField = document.getElementById("totalLoansSub");
+            totalLoansField.innerHTML = totalLoans;
+            let savedGracePeriodField = document.getElementById("whatIfPaid");
+            savedGracePeriodField.textContent = savedGracePeriod;
+            let savedAllYearsField = document.getElementById("whatIfSaved");
+            savedAllYearsField.textContent = savedAllYears;
+
             toggleResults("subResultsContainer", "unsubResultsContainer");
             resultsContainer = document.getElementById("subResultsContainer");
         }
@@ -229,7 +257,7 @@ document.getElementById("whatIfForm").addEventListener("submit", async function(
     const resultsContainer = document.getElementById("resultContainer");
 
     // save graduation date from input field
-    const gradDate = document.getElementById("graduationDate").value;
+    const gradDate = document.getElementById("graduationDate2").value;
 
     // save each loan information into an array
     loans = [] 

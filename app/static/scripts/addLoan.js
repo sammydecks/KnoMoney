@@ -30,8 +30,8 @@ document.getElementById("addLoan").addEventListener("click", function () {
                 <input type="number" class="form-control" name="balance[]" placeholder="Loan Balance" min="0.01" max="100000" step="0.01" inputmode="decimal" required>
             </div>
             <div class="col-12 col-md">
-                <label for="interest" class="form-label">Interest Rate: </label>
-                <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" step="0.001" min="0.01" max="0.99" inputmode="decimal" required>
+                <label for="interest" class="form-label">Interest Rate (%): </label>
+                <input type="number" class="form-control" name="interest[]" placeholder="Loan Interest Rate" step="0.001" min="1" max="99" inputmode="decimal" required>
             </div>
         </div>
     `;
