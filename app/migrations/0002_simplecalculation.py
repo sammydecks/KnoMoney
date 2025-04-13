@@ -11,13 +11,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='SimpleCalculation',
-            fields=[
-                ('simplecalculation_id', models.AutoField(primary_key=True, serialize=False)),
-                ('expected_grad_date', models.DateTimeField()),
-                ('loan_amount', models.CharField(max_length=100)),
-                ('submit_time', models.DateTimeField(default=django.utils.timezone.now)),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='SimpleCalculation',
+        #     fields=[
+        #         ('simplecalculation_id', models.AutoField(primary_key=True, serialize=False)),
+        #         ('expected_grad_date', models.DateTimeField()),
+        #         ('loan_amount', models.CharField(max_length=100)),
+        #         ('submit_time', models.DateTimeField(default=django.utils.timezone.now)),
+        #     ],
+        # ),
     ]
