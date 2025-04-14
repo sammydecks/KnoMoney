@@ -14,9 +14,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='EmailList',
+            name='Referral',
             fields=[
-                ('emaillist_id', models.AutoField(primary_key=True, serialize=False)),
+                ('referral_id', models.AutoField(primary_key=True, serialize=False)),
                 ('email', models.EmailField(max_length=255)),
                 ('submit_time', models.DateTimeField(default=django.utils.timezone.now)),
             ],
